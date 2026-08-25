@@ -91,13 +91,13 @@ class _HomePageContentState extends State<HomePageContent>
                 ),
                 const SizedBox(height: 24),
 
-                // Section: Kategoreys
+                // Section: Kategori
                 _slideIn(
                   delay: 0.1,
                   end: 0.5,
                   child: _buildSectionHeader(
-                    'Kategoreys',
-                    '🏷️',
+                    'Kategori',
+                    Icons.category_rounded,
                     _teal.withValues(alpha: 0.25),
                   ),
                 ),
@@ -111,13 +111,13 @@ class _HomePageContentState extends State<HomePageContent>
                 ),
                 const SizedBox(height: 24),
 
-                // Section: Best Mewing
+                // Section: Populer
                 _slideIn(
                   delay: 0.25,
                   end: 0.65,
                   child: _buildSectionHeader(
-                    'Best Mewing',
-                    '🔥',
+                    'Populer',
+                    Icons.local_fire_department_rounded,
                     _pink.withValues(alpha: 0.2),
                   ),
                 ),
@@ -138,7 +138,7 @@ class _HomePageContentState extends State<HomePageContent>
   }
 
   // ── Section header Neo Brutalism banner ────────────────────────────
-  Widget _buildSectionHeader(String title, String emoji, Color bgColor) {
+  Widget _buildSectionHeader(String title, IconData icon, Color bgColor) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -156,7 +156,7 @@ class _HomePageContentState extends State<HomePageContent>
       ),
       child: Row(
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 22)),
+          Icon(icon, size: 24, color: Colors.white),
           const SizedBox(width: 10),
           Text(
             title,

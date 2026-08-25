@@ -60,7 +60,7 @@ class CartBottomNavBar extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('🎉', style: TextStyle(fontSize: 64)),
+                        const Icon(Icons.check_circle_rounded, size: 64, color: _green),
                         const SizedBox(height: 16),
                         const Text(
                           'Pesanan Berhasil!',

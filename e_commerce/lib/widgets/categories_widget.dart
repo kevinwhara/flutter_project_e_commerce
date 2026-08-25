@@ -14,12 +14,12 @@ class _CategoriesWidgetState extends State<CategoriesWidget>
 
   static const _borderColor = Color(0xFF1A1A2E);
 
-  // Each category gets its own color + emoji
+  // Each category gets its own color + icon
   static const List<_CategoryData> _categories = [
-    _CategoryData('Outfit', '👗', Color(0xFFFF6B6B), Color(0xFFFFCDD2)),
-    _CategoryData('Makanan', '🍜', Color(0xFF4ECDC4), Color(0xFFB2DFDB)),
-    _CategoryData('Skincare', '✨', Color(0xFFAB47BC), Color(0xFFD1C4E9)),
-    _CategoryData('Elektronic', '⚡', Color(0xFFFFB74D), Color(0xFFFFE0B2)),
+    _CategoryData('Outfit', Icons.checkroom_rounded, Color(0xFFFF6B6B), Color(0xFFFFCDD2)),
+    _CategoryData('Makanan', Icons.restaurant_rounded, Color(0xFF4ECDC4), Color(0xFFB2DFDB)),
+    _CategoryData('Skincare', Icons.face_retouching_natural_rounded, Color(0xFFAB47BC), Color(0xFFD1C4E9)),
+    _CategoryData('Elektronic', Icons.bolt_rounded, Color(0xFFFFB74D), Color(0xFFFFE0B2)),
   ];
 
   @override
@@ -88,7 +88,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Emoji in a small bordered circle
+            // Icon in a small bordered circle
             Container(
               width: 36,
               height: 36,
@@ -98,7 +98,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget>
                 border: Border.all(color: _borderColor, width: 2),
               ),
               child: Center(
-                child: Text(data.emoji, style: const TextStyle(fontSize: 18)),
+                child: Icon(data.icon, size: 20, color: _borderColor),
               ),
             ),
             const SizedBox(width: 8),
@@ -118,9 +118,9 @@ class _CategoriesWidgetState extends State<CategoriesWidget>
 }
 
 class _CategoryData {
-  const _CategoryData(this.label, this.emoji, this.accentColor, this.fillColor);
+  const _CategoryData(this.label, this.icon, this.accentColor, this.fillColor);
   final String label;
-  final String emoji;
+  final IconData icon;
   final Color accentColor;
   final Color fillColor;
 }

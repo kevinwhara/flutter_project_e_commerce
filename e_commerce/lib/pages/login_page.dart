@@ -391,7 +391,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           ],
         ),
         child: const Center(
-          child: Text('🛒', style: TextStyle(fontSize: 38)),
+          child: Icon(Icons.shopping_cart_rounded, size: 36, color: _borderColor),
         ),
       ),
     );

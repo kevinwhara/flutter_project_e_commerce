@@ -112,7 +112,7 @@ class ProductDetailPage extends StatelessWidget {
                       ],
                     ),
                     child: Text(
-                      '-${product.discountPercent}% 🔥',
+                      '-${product.discountPercent}%',
                       style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w900),
                     ),
                   ),
@@ -133,7 +133,13 @@ class ProductDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Deskripsi 📋', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: _borderColor)),
+                  const Row(
+                    children: [
+                      Icon(Icons.description_rounded, size: 20, color: _borderColor),
+                      SizedBox(width: 8),
+                      Text('Deskripsi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: _borderColor)),
+                    ],
+                  ),
                   const SizedBox(height: 8),
                   Text(product.description, style: TextStyle(fontSize: 14, color: _borderColor.withValues(alpha: 0.7), fontWeight: FontWeight.w600)),
                 ],

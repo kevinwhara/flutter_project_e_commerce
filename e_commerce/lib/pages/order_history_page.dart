@@ -21,7 +21,7 @@ class OrderHistoryPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_rounded, color: _borderColor),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Riwayat Pesanan 📦', style: TextStyle(fontWeight: FontWeight.w900, color: _borderColor)),
+        title: const Text('Riwayat Pesanan', style: TextStyle(fontWeight: FontWeight.w900, color: _borderColor)),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(3.5),
           child: Container(color: _borderColor, height: 3.5),
@@ -35,7 +35,7 @@ class OrderHistoryPage extends StatelessWidget {
             date: '12 Agustus 2026',
             status: 'Dikirim',
             statusColor: _green,
-            emoji: '🚚',
+            icon: Icons.local_shipping_rounded,
             total: '\$148.50',
             itemCount: 3,
           ),
@@ -45,7 +45,7 @@ class OrderHistoryPage extends StatelessWidget {
             date: '5 Agustus 2026',
             status: 'Selesai',
             statusColor: _teal,
-            emoji: '✅',
+            icon: Icons.check_circle_rounded,
             total: '\$24.00',
             itemCount: 1,
           ),
@@ -55,7 +55,7 @@ class OrderHistoryPage extends StatelessWidget {
             date: '20 Juli 2026',
             status: 'Dibatalkan',
             statusColor: _pink,
-            emoji: '❌',
+            icon: Icons.cancel_rounded,
             total: '\$12.99',
             itemCount: 2,
           ),
@@ -69,7 +69,7 @@ class OrderHistoryPage extends StatelessWidget {
     required String date,
     required String status,
     required Color statusColor,
-    required String emoji,
+    required IconData icon,
     required String total,
     required int itemCount,
   }) {
@@ -98,7 +98,7 @@ class OrderHistoryPage extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(emoji, style: const TextStyle(fontSize: 12)),
+                    Icon(icon, size: 14, color: _borderColor),
                     const SizedBox(width: 4),
                     Text(status, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: _borderColor)),
                   ],

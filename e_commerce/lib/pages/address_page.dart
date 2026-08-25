@@ -19,7 +19,13 @@ class AddressPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_rounded, color: _borderColor),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Alamat Pengiriman 📍', style: TextStyle(fontWeight: FontWeight.w900, color: _borderColor)),
+        title: const Row(
+          children: [
+            Icon(Icons.location_on_rounded, color: _borderColor),
+            SizedBox(width: 8),
+            Text('Alamat Pengiriman', style: TextStyle(fontWeight: FontWeight.w900, color: _borderColor)),
+          ],
+        ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(3.5),
           child: Container(color: _borderColor, height: 3.5),
@@ -28,9 +34,9 @@ class AddressPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildAddressCard('Rumah 🏠', 'Jeki Sudirman', 'Jl. Jenderal Sudirman No. 45, Jakarta Pusat, 10220', true, _teal),
+          _buildAddressCard('Rumah', Icons.home_rounded, 'Jeki Sudirman', 'Jl. Jenderal Sudirman No. 45, Jakarta Pusat, 10220', true, _teal),
           const SizedBox(height: 16),
-          _buildAddressCard('Kantor 🏢', 'Jeki Worker', 'Gedung Tech Tower Lt. 12, Sudirman CBD, Jakarta', false, _purple),
+          _buildAddressCard('Kantor', Icons.business_rounded, 'Jeki Worker', 'Gedung Tech Tower Lt. 12, Sudirman CBD, Jakarta', false, _purple),
           const SizedBox(height: 32),
           GestureDetector(
             onTap: () {
@@ -59,7 +65,7 @@ class AddressPage extends StatelessWidget {
     );
   }
 
-  Widget _buildAddressCard(String label, String name, String fullAddress, bool isMain, Color accentColor) {
+  Widget _buildAddressCard(String label, IconData icon, String name, String fullAddress, bool isMain, Color accentColor) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -74,7 +80,13 @@ class AddressPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(label, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: _borderColor)),
+              Row(
+                children: [
+                  Icon(icon, color: _borderColor, size: 20),
+                  const SizedBox(width: 8),
+                  Text(label, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: _borderColor)),
+                ],
+              ),
               if (isMain)
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

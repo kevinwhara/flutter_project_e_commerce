@@ -75,7 +75,7 @@ class _CartPageState extends State<CartPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('🫙', style: TextStyle(fontSize: 64)),
+                          const Icon(Icons.shopping_cart_outlined, size: 64, color: _borderColor),
                           const SizedBox(height: 16),
                           const Text('Keranjangmu Kosong!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: _borderColor)),
                           const SizedBox(height: 8),

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-/// Neo Brutalism styled fully featured account page.
-class AccountPage extends StatelessWidget {
+class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
 
+  @override
+  State<AccountPage> createState() => _AccountPageState();
+}
+
+class _AccountPageState extends State<AccountPage> {
   static const _borderColor = Color(0xFF1A1A2E);
   static const _bgColor = Color(0xFFFFF59D);
   static const _purple = Color(0xFFAB47BC);
@@ -13,6 +17,92 @@ class AccountPage extends StatelessWidget {
   static const _green = Color(0xFF4CAF50);
   static const _lavender = Color(0xFFD1C4E9);
 
+  // State untuk avatar yang bisa diganti
+  IconData _currentAvatar = Icons.face_rounded;
+  Color _currentAvatarColor = _lavender;
+
+  // Daftar opsi avatar
+  final List<Map<String, dynamic>> _avatarOptions = [
+    {'icon': Icons.face_rounded, 'color': Color(0xFFD1C4E9)}, // lavender
+    {'icon': Icons.pets_rounded, 'color': Color(0xFFFFB74D)}, // orange
+    {'icon': Icons.rocket_launch_rounded, 'color': Color(0xFF4ECDC4)}, // teal
+    {'icon': Icons.sports_esports_rounded, 'color': Color(0xFFFF6B6B)}, // pink
+    {'icon': Icons.music_note_rounded, 'color': Color(0xFFAB47BC)}, // purple
+    {'icon': Icons.camera_alt_rounded, 'color': Color(0xFF4CAF50)}, // green
+  ];
+
+  void _showAvatarPicker() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
+            ),
+            border: Border(
+              top: BorderSide(color: _borderColor, width: 3.5),
+              left: BorderSide(color: _borderColor, width: 3.5),
+              right: BorderSide(color: _borderColor, width: 3.5),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Pilih Avatar Baru',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: _borderColor),
+              ),
+              const SizedBox(height: 24),
+              Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                alignment: WrapAlignment.center,
+                children: _avatarOptions.map((option) {
+                  final isSelected = _currentAvatar == option['icon'];
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _currentAvatar = option['icon'];
+                        _currentAvatarColor = option['color'];
+                      });
+                      Navigator.pop(ctx);
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(const SnackBar(content: Text('Foto profil berhasil diubah!')));
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                        color: option['color'],
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: _borderColor,
+                          width: isSelected ? 4 : 2,
+                        ),
+                        boxShadow: isSelected
+                            ? const [BoxShadow(color: _borderColor, offset: Offset(4, 4), blurRadius: 0)]
+                            : const [BoxShadow(color: _borderColor, offset: Offset(2, 2), blurRadius: 0)],
+                      ),
+                      child: Icon(option['icon'], size: 32, color: _borderColor),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +110,13 @@ class AccountPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text('Profile 🧑‍🚀', style: TextStyle(fontWeight: FontWeight.w900, color: _borderColor)),
+        title: const Row(
+          children: [
+            Icon(Icons.person_rounded, color: _borderColor),
+            SizedBox(width: 8),
+            Text('Profile', style: TextStyle(fontWeight: FontWeight.w900, color: _borderColor)),
+          ],
+        ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(3.5),
           child: Container(color: _borderColor, height: 3.5),
@@ -44,10 +140,11 @@ class AccountPage extends StatelessWidget {
                   Container(
                     width: 72, height: 72,
                     decoration: BoxDecoration(
-                      color: _lavender, shape: BoxShape.circle,
+                      color: _currentAvatarColor,
+                      shape: BoxShape.circle,
                       border: Border.all(color: _borderColor, width: 2.5),
                     ),
-                    child: const Center(child: Text('😎', style: TextStyle(fontSize: 38))),
+                    child: Center(child: Icon(_currentAvatar, size: 38, color: _borderColor)),
                   ),
                   const SizedBox(width: 16),
                   const Expanded(
@@ -60,13 +157,16 @@ class AccountPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: _pink, shape: BoxShape.circle,
-                      border: Border.all(color: _borderColor, width: 2),
+                  GestureDetector(
+                    onTap: _showAvatarPicker,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: _pink, shape: BoxShape.circle,
+                        border: Border.all(color: _borderColor, width: 2),
+                      ),
+                      child: const Icon(Icons.edit_rounded, color: Colors.white, size: 20),
                     ),
-                    child: const Icon(Icons.edit_rounded, color: Colors.white, size: 20),
                   ),
                 ],
               ),
@@ -76,11 +176,11 @@ class AccountPage extends StatelessWidget {
             // ── Stats Row ─────────────────────────────────────────
             Row(
               children: [
-                Expanded(child: _buildStatCard('Orders', '📦', '12', _teal)),
+                Expanded(child: _buildStatCard('Orders', Icons.inventory_2_rounded, '12', _teal)),
                 const SizedBox(width: 12),
-                Expanded(child: _buildStatCard('Coupons', '🎫', '5', _orange)),
+                Expanded(child: _buildStatCard('Coupons', Icons.local_offer_rounded, '5', _orange)),
                 const SizedBox(width: 12),
-                Expanded(child: _buildStatCard('Reviews', '⭐', '8', _purple)),
+                Expanded(child: _buildStatCard('Reviews', Icons.star_rounded, '8', _purple)),
               ],
             ),
             const SizedBox(height: 32),
@@ -124,7 +224,7 @@ class AccountPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(String title, String emoji, String count, Color color) {
+  Widget _buildStatCard(String title, IconData icon, String count, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
@@ -135,7 +235,7 @@ class AccountPage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 24)),
+          Icon(icon, size: 28, color: _borderColor),
           const SizedBox(height: 8),
           Text(count, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white)),
           const SizedBox(height: 4),

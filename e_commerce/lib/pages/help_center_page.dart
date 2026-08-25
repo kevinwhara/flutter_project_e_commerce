@@ -18,7 +18,13 @@ class HelpCenterPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_rounded, color: _borderColor),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Pusat Bantuan 🆘', style: TextStyle(fontWeight: FontWeight.w900, color: _borderColor)),
+        title: const Row(
+          children: [
+            Icon(Icons.support_agent_rounded, color: _borderColor),
+            SizedBox(width: 8),
+            Text('Pusat Bantuan', style: TextStyle(fontWeight: FontWeight.w900, color: _borderColor)),
+          ],
+        ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(3.5),
           child: Container(color: _borderColor, height: 3.5),
@@ -37,7 +43,7 @@ class HelpCenterPage extends StatelessWidget {
             ),
             child: const Column(
               children: [
-                Text('💬', style: TextStyle(fontSize: 48)),
+                Icon(Icons.forum_rounded, size: 48, color: Colors.white),
                 SizedBox(height: 12),
                 Text('Ada yang bisa kami bantu?', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white)),
                 SizedBox(height: 8),
