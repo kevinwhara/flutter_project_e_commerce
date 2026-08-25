@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'models/chat_preview.dart';
+import 'pages/address_page.dart';
 import 'pages/cart_page.dart';
 import 'pages/detail_chat.dart';
+import 'pages/help_center_page.dart';
 import 'pages/home_page.dart';
 import 'pages/list_chat.dart';
 import 'pages/login_page.dart';
+import 'pages/order_history_page.dart';
 import 'pages/product_detail_page.dart';
 import 'pages/register_page.dart';
 
@@ -59,6 +62,9 @@ class MyApp extends StatelessWidget {
           final contact = ModalRoute.of(context)!.settings.arguments as ChatPreview;
           return ChatScreen(contact: contact);
         },
+        '/order-history': (context) => const OrderHistoryPage(),
+        '/address': (context) => const AddressPage(),
+        '/help-center': (context) => const HelpCenterPage(),
       },
     );
   }

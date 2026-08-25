@@ -109,17 +109,28 @@ class _ProductCardState extends State<ProductCard>
                       const SizedBox.shrink(),
 
                     // Favorite icon
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: _pink.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: _borderColor, width: 1.5),
-                      ),
-                      child: const Icon(
-                        Icons.favorite_border_rounded,
-                        color: _pink,
-                        size: 18,
+                    GestureDetector(
+                      onTap: () {
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(
+                            SnackBar(
+                              content: Text('${widget.product.name} ditambahkan ke Favorit! ❤️'),
+                            ),
+                          );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: _pink.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: _borderColor, width: 1.5),
+                        ),
+                        child: const Icon(
+                          Icons.favorite_border_rounded,
+                          color: _pink,
+                          size: 18,
+                        ),
                       ),
                     ),
                   ],
@@ -219,24 +230,35 @@ class _ProductCardState extends State<ProductCard>
                     ),
 
                     // Cart button
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: _green,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: _borderColor, width: 2),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: _borderColor,
-                            offset: Offset(2, 2),
-                            blurRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.add_shopping_cart_rounded,
-                        size: 18,
-                        color: Colors.white,
+                    GestureDetector(
+                      onTap: () {
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(
+                            SnackBar(
+                              content: Text('${widget.product.name} ditambahkan ke Keranjang! 🛒'),
+                            ),
+                          );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: _green,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: _borderColor, width: 2),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: _borderColor,
+                              offset: Offset(2, 2),
+                              blurRadius: 0,
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.add_shopping_cart_rounded,
+                          size: 18,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],

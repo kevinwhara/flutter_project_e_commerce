@@ -163,7 +163,7 @@ class _HomePageContentState extends State<HomePageContent>
             style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w900,
-              color: _borderColor,
+              color: Colors.white,
               letterSpacing: -0.3,
             ),
           ),
@@ -307,7 +307,7 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin {
           vertical: 8,
         ),
         decoration: BoxDecoration(
-          color: isActive ? data.color.withValues(alpha: 0.2) : Colors.transparent,
+          color: isActive ? data.color : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: isActive
               ? Border.all(color: _borderColor, width: 2.5)
@@ -331,17 +331,17 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin {
               child: Icon(
                 data.icon,
                 size: 26,
-                color: isActive ? data.color : _borderColor.withValues(alpha: 0.5),
+                color: isActive ? Colors.white : _borderColor.withValues(alpha: 0.5),
               ),
             ),
             if (isActive) ...[
               const SizedBox(width: 6),
               Text(
                 data.label,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w900,
-                  color: _borderColor,
+                  color: Colors.white,
                 ),
               ),
             ],

@@ -70,18 +70,31 @@ class _CartPageState extends State<CartPage> {
             child: Container(
               padding: const EdgeInsets.only(top: 16),
               color: _bgColor,
-              child: ListView.builder(
-                itemCount: _items.length,
-                itemBuilder: (context, index) {
-                  final item = _items[index];
-                  return CartItemTile(
-                    item: item,
-                    onIncrement: () => _incrementQty(item.id),
-                    onDecrement: () => _decrementQty(item.id),
-                    onDelete: () => _removeItem(item.id),
-                  );
-                },
-              ),
+              child: _items.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('🫙', style: TextStyle(fontSize: 64)),
+                          const SizedBox(height: 16),
+                          const Text('Keranjangmu Kosong!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: _borderColor)),
+                          const SizedBox(height: 8),
+                          Text('Yuk mulai belanja sekarang', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _borderColor.withValues(alpha: 0.6))),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: _items.length,
+                      itemBuilder: (context, index) {
+                        final item = _items[index];
+                        return CartItemTile(
+                          item: item,
+                          onIncrement: () => _incrementQty(item.id),
+                          onDecrement: () => _decrementQty(item.id),
+                          onDelete: () => _removeItem(item.id),
+                        );
+                      },
+                    ),
             ),
           ),
           // Coupon section

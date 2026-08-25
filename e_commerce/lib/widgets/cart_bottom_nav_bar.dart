@@ -44,20 +44,88 @@ class CartBottomNavBar extends StatelessWidget {
           const SizedBox(height: 12),
           // Checkout button
           GestureDetector(
-            onTap: onCheckout,
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (ctx) => Dialog(
+                  backgroundColor: Colors.transparent,
+                  child: Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFF59D),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: _borderColor, width: 3),
+                      boxShadow: const [BoxShadow(color: _borderColor, offset: Offset(5, 5), blurRadius: 0)],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text('🎉', style: TextStyle(fontSize: 64)),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Pesanan Berhasil!',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: _borderColor),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Barangmu sedang diproses dan akan segera dikirim.',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _borderColor),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 24),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(ctx); // Close dialog
+                            Navigator.pushReplacementNamed(context, '/home'); // Go to home
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            decoration: BoxDecoration(
+                              color: _green,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: _borderColor, width: 2.5),
+                              boxShadow: const [BoxShadow(color: _borderColor, offset: Offset(3, 3), blurRadius: 0)],
+                            ),
+                            child: const Center(
+                              child: Text('Kembali Belanja', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16)),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
             child: Container(
-              alignment: Alignment.center,
-              height: 52, width: double.infinity,
+              height: 52,
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 color: _green,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: _borderColor, width: 3.5),
-                boxShadow: const [BoxShadow(color: _borderColor, offset: Offset(4, 4), blurRadius: 0)],
+                border: Border.all(color: _borderColor, width: 2.5),
+                boxShadow: const [
+                  BoxShadow(
+                    color: _borderColor,
+                    offset: Offset(4, 4),
+                    blurRadius: 0,
+                  ),
+                ],
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Check Out', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18, color: Colors.white)),
+                  Text(
+                    'Check Out',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
+                  ),
                   SizedBox(width: 8),
                   Text('💳', style: TextStyle(fontSize: 18)),
                 ],
