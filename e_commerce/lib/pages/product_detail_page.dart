@@ -128,7 +128,7 @@ class ProductDetailPage extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 decoration: BoxDecoration(
-                  color: _primary,
+                  gradient: const LinearGradient(colors: [Color(0xFF6B73FF), Color(0xFF4C53A5)], begin: Alignment.topLeft, end: Alignment.bottomRight),
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(color: _primary.withOpacity(0.3), offset: const Offset(0, 4), blurRadius: 16),

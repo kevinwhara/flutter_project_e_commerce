@@ -15,83 +15,7 @@ class _AccountPageState extends State<AccountPage> {
   static const _accentPink = Color(0xFFFF6B6B);
   static const _surface = Colors.white;
 
-  // State untuk avatar yang bisa diganti
-  IconData _currentAvatar = Icons.face_rounded;
-  Color _currentAvatarColor = const Color(0xFFD1C4E9); // lavender
-
-  // Daftar opsi avatar
-  final List<Map<String, dynamic>> _avatarOptions = [
-    {'icon': Icons.face_rounded, 'color': const Color(0xFFD1C4E9)}, // lavender
-    {'icon': Icons.pets_rounded, 'color': const Color(0xFFFFB74D)}, // orange
-    {'icon': Icons.rocket_launch_rounded, 'color': const Color(0xFF4ECDC4)}, // teal
-    {'icon': Icons.sports_esports_rounded, 'color': const Color(0xFFFF6B6B)}, // pink
-    {'icon': Icons.music_note_rounded, 'color': const Color(0xFFAB47BC)}, // purple
-    {'icon': Icons.camera_alt_rounded, 'color': const Color(0xFF4CAF50)}, // green
-  ];
-
-  void _showAvatarPicker() {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) {
-        return Container(
-          padding: const EdgeInsets.all(24),
-          decoration: const BoxDecoration(
-            color: _surface,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24),
-              topRight: Radius.circular(24),
-            ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Pilih Avatar Baru',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: _textDark),
-              ),
-              const SizedBox(height: 24),
-              Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                alignment: WrapAlignment.center,
-                children: _avatarOptions.map((option) {
-                  final isSelected = _currentAvatar == option['icon'];
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _currentAvatar = option['icon'];
-                        _currentAvatarColor = option['color'];
-                      });
-                      Navigator.pop(ctx);
-                      ScaffoldMessenger.of(context)
-                        ..hideCurrentSnackBar()
-                        ..showSnackBar(const SnackBar(content: Text('Foto profil berhasil diubah!')));
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        color: option['color'].withOpacity(0.2),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: isSelected ? _primary : Colors.transparent,
-                          width: 2,
-                        ),
-                      ),
-                      child: Icon(option['icon'], size: 32, color: option['color']),
-                    ),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // Removed avatar picker dependencies
 
   @override
   Widget build(BuildContext context) {
@@ -126,11 +50,13 @@ class _AccountPageState extends State<AccountPage> {
                 children: [
                   Container(
                     width: 72, height: 72,
-                    decoration: BoxDecoration(
-                      color: _currentAvatarColor.withOpacity(0.2),
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/pfp.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    child: Center(child: Icon(_currentAvatar, size: 38, color: _currentAvatarColor)),
                   ),
                   const SizedBox(width: 16),
                   const Expanded(
@@ -144,7 +70,11 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: _showAvatarPicker,
+                    onTap: () {
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(const SnackBar(content: Text('Fitur ubah foto akan segera hadir!')));
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -162,11 +92,11 @@ class _AccountPageState extends State<AccountPage> {
             // ── Stats Row ─────────────────────────────────────────
             Row(
               children: [
-                Expanded(child: _buildStatCard('Orders', Icons.inventory_2_rounded, '12', const Color(0xFF4ECDC4))),
+                Expanded(child: _buildStatCard('Orders', Icons.inventory_2_rounded, '12', const LinearGradient(colors: [Color(0xFF4EE3CD), Color(0xFF35A796)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
                 const SizedBox(width: 12),
-                Expanded(child: _buildStatCard('Coupons', Icons.local_offer_rounded, '5', const Color(0xFFFFB74D))),
+                Expanded(child: _buildStatCard('Coupons', Icons.local_offer_rounded, '5', const LinearGradient(colors: [Color(0xFFFFC770), Color(0xFFFF9800)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
                 const SizedBox(width: 12),
-                Expanded(child: _buildStatCard('Reviews', Icons.star_rounded, '8', const Color(0xFFAB47BC))),
+                Expanded(child: _buildStatCard('Reviews', Icons.star_rounded, '8', const LinearGradient(colors: [Color(0xFFC46FE0), Color(0xFF8E24AA)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
               ],
             ),
             const SizedBox(height: 32),
@@ -209,21 +139,27 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  Widget _buildStatCard(String title, IconData icon, String count, Color color) {
+  Widget _buildStatCard(String title, IconData icon, String count, LinearGradient gradient) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
-        color: _surface,
+        gradient: gradient,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), offset: const Offset(0, 4), blurRadius: 12)],
+        boxShadow: [
+          BoxShadow(
+            color: gradient.colors.first.withOpacity(0.3),
+            offset: const Offset(0, 4),
+            blurRadius: 12,
+          )
+        ],
       ),
       child: Column(
         children: [
-          Icon(icon, size: 28, color: color),
+          Icon(icon, size: 28, color: Colors.white),
           const SizedBox(height: 8),
-          Text(count, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: _textDark)),
+          Text(count, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
           const SizedBox(height: 4),
-          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _textLight)),
+          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white)),
         ],
       ),
     );
