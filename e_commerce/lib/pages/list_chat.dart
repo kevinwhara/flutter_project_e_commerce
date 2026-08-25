@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/dummy_data.dart';
 import '../models/chat_preview.dart';
 
-/// Neo Brutalism styled chat list page.
+/// Professional Mobile UI styled chat list page.
 class ChatListPage extends StatefulWidget {
   const ChatListPage({super.key});
 
@@ -14,33 +14,31 @@ class ChatListPage extends StatefulWidget {
 class _ChatListPageState extends State<ChatListPage> {
   final List<ChatPreview> chats = dummyChats;
 
-  static const _borderColor = Color(0xFF1A1A2E);
-  static const _bgColor = Color(0xFFFFF59D);
-  static const _pink = Color(0xFFFF6B6B);
-  static const _teal = Color(0xFF4ECDC4);
+  static const _textDark = Color(0xFF2D3142);
+  static const _textLight = Color(0xFF9094A6);
+  static const _bgLight = Color(0xFFF8F9FA);
+  static const _primary = Color(0xFF4C53A5);
+  static const _accentPink = Color(0xFFFF6B6B);
+  static const _surface = Colors.white;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bgColor,
+      backgroundColor: _bgLight,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: _borderColor,
-        title: const Text('List Chat 💬', style: TextStyle(fontWeight: FontWeight.w900, color: _borderColor)),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(3.5),
-          child: Container(color: _borderColor, height: 3.5),
-        ),
+        backgroundColor: _surface,
+        foregroundColor: _textDark,
+        elevation: 0,
+        title: const Text('List Chat', style: TextStyle(fontWeight: FontWeight.w700, color: _textDark)),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 12),
-            padding: const EdgeInsets.all(6),
+            margin: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: _teal.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: _borderColor, width: 2),
+              color: _bgLight,
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.search_rounded, size: 22, color: _borderColor),
+            child: const Icon(Icons.search_rounded, size: 22, color: _textDark),
           ),
         ],
       ),
@@ -48,13 +46,13 @@ class _ChatListPageState extends State<ChatListPage> {
         children: [
           // Filter tabs
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            color: _surface,
             child: Row(
               children: [
-                _filterChip('Semua', _teal, true),
+                _filterChip('Semua', _primary, true),
                 const SizedBox(width: 8),
-                _filterChip('Belum Dibaca', _pink, false),
+                _filterChip('Belum Dibaca', _textLight, false),
               ],
             ),
           ),
@@ -68,40 +66,38 @@ class _ChatListPageState extends State<ChatListPage> {
                 return Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: _borderColor, width: 2.5),
-                    boxShadow: [BoxShadow(color: _borderColor.withValues(alpha: 0.8), offset: const Offset(3, 3), blurRadius: 0)],
+                    color: _surface,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(color: Colors.black.withOpacity(0.02), offset: const Offset(0, 4), blurRadius: 12),
+                    ],
                   ),
                   child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                    leading: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: _borderColor, width: 2.5),
-                      ),
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage(chat.avatarAsset),
-                        radius: 24,
-                        onBackgroundImageError: (exception, stackTrace) {},
-                      ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(chat.avatarAsset),
+                      radius: 26,
+                      onBackgroundImageError: (exception, stackTrace) {},
                     ),
-                    title: Text(chat.name, style: const TextStyle(fontWeight: FontWeight.w800, color: _borderColor)),
-                    subtitle: Text(chat.lastMessage, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: _borderColor.withValues(alpha: 0.6), fontWeight: FontWeight.w600)),
+                    title: Text(chat.name, style: const TextStyle(fontWeight: FontWeight.w600, color: _textDark, fontSize: 16)),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(chat.lastMessage, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: _textLight, fontWeight: FontWeight.w400)),
+                    ),
                     trailing: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(chat.time, style: TextStyle(color: _borderColor.withValues(alpha: 0.5), fontSize: 11, fontWeight: FontWeight.w700)),
+                        Text(chat.time, style: const TextStyle(color: _textLight, fontSize: 12, fontWeight: FontWeight.w500)),
                         if (chat.isUnread)
                           Container(
-                            margin: const EdgeInsets.only(top: 5),
+                            margin: const EdgeInsets.only(top: 6),
                             padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: _pink,
+                            decoration: const BoxDecoration(
+                              color: _accentPink,
                               shape: BoxShape.circle,
-                              border: Border.all(color: _borderColor, width: 1.5),
                             ),
-                            child: const Text('1', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900)),
+                            child: const Text('1', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700)),
                           ),
                       ],
                     ),
@@ -121,14 +117,13 @@ class _ChatListPageState extends State<ChatListPage> {
 
   Widget _filterChip(String label, Color color, bool active) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: active ? color.withValues(alpha: 0.2) : Colors.transparent,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: _borderColor, width: 2),
-        boxShadow: active ? const [BoxShadow(color: _borderColor, offset: Offset(2, 2), blurRadius: 0)] : [],
+        color: active ? color.withOpacity(0.1) : Colors.transparent,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: active ? color.withOpacity(0.2) : _textLight.withOpacity(0.2), width: 1),
       ),
-      child: Text(label, style: TextStyle(color: _borderColor, fontWeight: active ? FontWeight.w800 : FontWeight.w600, fontSize: 13)),
+      child: Text(label, style: TextStyle(color: active ? color : _textLight, fontWeight: active ? FontWeight.w600 : FontWeight.w500, fontSize: 14)),
     );
   }
 }

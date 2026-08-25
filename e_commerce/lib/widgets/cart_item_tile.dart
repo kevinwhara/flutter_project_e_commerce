@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/cart_item.dart';
 
-/// Neo Brutalism styled cart item tile.
+/// Professional Mobile UI styled cart item tile.
 class CartItemTile extends StatelessWidget {
   const CartItemTile({super.key, required this.item, required this.onIncrement, required this.onDecrement, required this.onDelete});
 
@@ -11,10 +11,11 @@ class CartItemTile extends StatelessWidget {
   final VoidCallback onDecrement;
   final VoidCallback onDelete;
 
-  static const _borderColor = Color(0xFF1A1A2E);
-  static const _pink = Color(0xFFFF6B6B);
-  static const _teal = Color(0xFF4ECDC4);
-  static const _orange = Color(0xFFFFB74D);
+  static const _textDark = Color(0xFF2D3142);
+  static const _textLight = Color(0xFF9094A6);
+  static const _primary = Color(0xFF4C53A5);
+  static const _accentPink = Color(0xFFFF6B6B);
+  static const _bgLight = Color(0xFFF8F9FA);
 
   @override
   Widget build(BuildContext context) {
@@ -23,46 +24,36 @@ class CartItemTile extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: _borderColor, width: 3),
-        boxShadow: [BoxShadow(color: _borderColor.withValues(alpha: 0.9), offset: const Offset(4, 4), blurRadius: 0)],
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), offset: const Offset(0, 4), blurRadius: 12)],
       ),
       child: Row(
         children: [
-          // Product image in bordered frame
+          // Product image
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: _orange.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: _borderColor, width: 2),
+              color: _bgLight,
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Image.asset(
               item.imageUrl, width: 60, height: 60, fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Container(
                 width: 60, height: 60,
-                color: _orange.withValues(alpha: 0.1),
-                child: const Icon(Icons.image_not_supported_outlined, color: _borderColor),
+                color: _bgLight,
+                child: const Icon(Icons.image_not_supported_outlined, color: _textLight),
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           // Name + price
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(item.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: _borderColor)),
-                const SizedBox(height: 4),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: _teal.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: _borderColor, width: 1.5),
-                  ),
-                  child: Text('\$${item.price}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: _borderColor)),
-                ),
+                Text(item.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: _textDark)),
+                const SizedBox(height: 8),
+                Text('\$${item.price.toStringAsFixed(2)}', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: _primary)),
               ],
             ),
           ),
@@ -74,29 +65,22 @@ class CartItemTile extends StatelessWidget {
               GestureDetector(
                 onTap: onDelete,
                 child: Container(
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: _pink.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: _borderColor, width: 1.5),
+                    color: _accentPink.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.delete_rounded, color: _pink, size: 20),
+                  child: const Icon(Icons.delete_outline_rounded, color: _accentPink, size: 20),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 12),
               // Quantity controls
               Row(
                 children: [
                   _qtyButton(Icons.remove, onDecrement),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: _orange.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: _borderColor, width: 1.5),
-                    ),
-                    child: Text('${item.quantity}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: _borderColor)),
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text('${item.quantity}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: _textDark)),
                   ),
                   _qtyButton(Icons.add, onIncrement),
                 ],
@@ -114,12 +98,10 @@ class CartItemTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: _bgLight,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: _borderColor, width: 2),
-          boxShadow: const [BoxShadow(color: _borderColor, offset: Offset(2, 2), blurRadius: 0)],
         ),
-        child: Icon(icon, size: 16, color: _borderColor),
+        child: Icon(icon, size: 16, color: _textDark),
       ),
     );
   }

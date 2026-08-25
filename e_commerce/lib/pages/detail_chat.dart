@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/chat_preview.dart';
 
-/// Neo Brutalism styled chat detail screen.
+/// Professional Mobile UI styled chat detail screen.
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.contact});
 
@@ -19,13 +19,12 @@ class _ChatScreenState extends State<ChatScreen> {
   ];
   final TextEditingController _controller = TextEditingController();
 
-  static const _borderColor = Color(0xFF1A1A2E);
-  static const _bgColor = Color(0xFFFFF59D);
-  static const _teal = Color(0xFF4ECDC4);
-  static const _orange = Color(0xFFFFB74D);
-  static const _purple = Color(0xFFAB47BC);
-  static const _mintFill = Color(0xFFB2DFDB);
-  static const _lavender = Color(0xFFD1C4E9);
+  static const _textDark = Color(0xFF2D3142);
+  static const _textLight = Color(0xFF9094A6);
+  static const _bgLight = Color(0xFFF8F9FA);
+  static const _primary = Color(0xFF4C53A5);
+  static const _primaryLight = Color(0xFFE8E9F4);
+  static const _surface = Colors.white;
 
   @override
   void dispose() {
@@ -50,14 +49,20 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bgColor,
+      backgroundColor: _bgLight,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: _borderColor,
-        title: Text(widget.contact.name, style: const TextStyle(color: _borderColor, fontWeight: FontWeight.w900)),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(3.5),
-          child: Container(color: _borderColor, height: 3.5),
+        backgroundColor: _surface,
+        foregroundColor: _textDark,
+        elevation: 0,
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage(widget.contact.avatarAsset),
+              radius: 18,
+            ),
+            const SizedBox(width: 12),
+            Text(widget.contact.name, style: const TextStyle(color: _textDark, fontWeight: FontWeight.w700, fontSize: 18)),
+          ],
         ),
       ),
       body: Column(
@@ -78,17 +83,23 @@ class _ChatScreenState extends State<ChatScreen> {
                       crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                       children: [
                         Container(
-                          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
-                          padding: const EdgeInsets.all(12),
+                          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                           decoration: BoxDecoration(
-                            color: isMe ? _orange.withValues(alpha: 0.3) : _mintFill,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: _borderColor, width: 2.5),
-                            boxShadow: [BoxShadow(color: _borderColor.withValues(alpha: 0.7), offset: const Offset(3, 3), blurRadius: 0)],
+                            color: isMe ? _primary : _surface,
+                            borderRadius: BorderRadius.only(
+                              topLeft: const Radius.circular(16),
+                              topRight: const Radius.circular(16),
+                              bottomLeft: isMe ? const Radius.circular(16) : const Radius.circular(4),
+                              bottomRight: isMe ? const Radius.circular(4) : const Radius.circular(16),
+                            ),
+                            boxShadow: [
+                              BoxShadow(color: Colors.black.withOpacity(0.04), offset: const Offset(0, 2), blurRadius: 8),
+                            ],
                           ),
                           child: Text(
                             message['text'],
-                            style: const TextStyle(fontSize: 15, color: _borderColor, fontWeight: FontWeight.w600),
+                            style: TextStyle(fontSize: 15, color: isMe ? Colors.white : _textDark, fontWeight: FontWeight.w500),
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -96,7 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Text(
                             message['time'],
-                            style: TextStyle(fontSize: 11, color: _borderColor.withValues(alpha: 0.5), fontWeight: FontWeight.w700),
+                            style: const TextStyle(fontSize: 11, color: _textLight, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],
@@ -108,46 +119,43 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           // Input bar
           Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border: Border(top: BorderSide(color: _borderColor, width: 3)),
+            decoration: BoxDecoration(
+              color: _surface,
+              boxShadow: [
+                BoxShadow(color: Colors.black.withOpacity(0.04), offset: const Offset(0, -4), blurRadius: 16),
+              ],
             ),
-            padding: const EdgeInsets.fromLTRB(12, 10, 12, 20),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
             child: Row(
               children: [
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      boxShadow: [BoxShadow(color: _borderColor.withValues(alpha: 0.8), offset: const Offset(3, 3), blurRadius: 0)],
-                      borderRadius: BorderRadius.circular(12),
+                      color: _bgLight,
+                      borderRadius: BorderRadius.circular(24),
                     ),
                     child: TextField(
                       controller: _controller,
-                      style: const TextStyle(fontWeight: FontWeight.w600, color: _borderColor),
+                      style: const TextStyle(fontWeight: FontWeight.w500, color: _textDark),
                       decoration: InputDecoration(
-                        hintText: 'Type a message... 💭',
-                        hintStyle: TextStyle(fontWeight: FontWeight.w600, color: _borderColor.withValues(alpha: 0.4)),
-                        filled: true, fillColor: _lavender.withValues(alpha: 0.3),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _borderColor, width: 2.5)),
-                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _borderColor, width: 2.5)),
-                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _teal, width: 2.5)),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        hintText: 'Type a message...',
+                        hintStyle: const TextStyle(fontWeight: FontWeight.w400, color: _textLight),
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 12),
                 GestureDetector(
                   onTap: _sendMessage,
                   child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: _purple,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: _borderColor, width: 2.5),
-                      boxShadow: const [BoxShadow(color: _borderColor, offset: Offset(3, 3), blurRadius: 0)],
+                    padding: const EdgeInsets.all(14),
+                    decoration: const BoxDecoration(
+                      color: _primary,
+                      shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.send_rounded, color: Colors.white, size: 22),
+                    child: const Icon(Icons.send_rounded, color: Colors.white, size: 20),
                   ),
                 ),
               ],

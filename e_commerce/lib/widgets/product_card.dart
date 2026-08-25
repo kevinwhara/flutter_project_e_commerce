@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 
-/// Neo Brutalism styled product card with thick borders, hard shadow,
-/// colorful discount badge, and chunky cart button.
+/// Professional Mobile UI styled product card.
 class ProductCard extends StatefulWidget {
   const ProductCard({super.key, required this.product});
 
@@ -18,12 +17,11 @@ class _ProductCardState extends State<ProductCard>
   late final AnimationController _scaleController;
   bool _isPressed = false;
 
-  static const _borderColor = Color(0xFF1A1A2E);
-  static const _pink = Color(0xFFFF6B6B);
-  static const _teal = Color(0xFF4ECDC4);
-  static const _green = Color(0xFF4CAF50);
-  static const _orange = Color(0xFFFFB74D);
-  static const _lavender = Color(0xFFD1C4E9);
+  static const _textDark = Color(0xFF2D3142);
+  static const _textLight = Color(0xFF9094A6);
+  static const _primary = Color(0xFF4C53A5);
+  static const _accentPink = Color(0xFFFF6B6B);
+  static const _bgLight = Color(0xFFF8F9FA);
 
   @override
   void initState() {
@@ -58,13 +56,12 @@ class _ProductCardState extends State<ProductCard>
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: _borderColor, width: 3),
+            borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: _borderColor.withValues(alpha: 0.9),
-                offset: const Offset(4, 4),
-                blurRadius: 0,
+                color: Colors.black.withOpacity(0.04),
+                offset: const Offset(0, 4),
+                blurRadius: 16,
               ),
             ],
           ),
@@ -85,23 +82,15 @@ class _ProductCardState extends State<ProductCard>
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: _pink,
+                          color: _accentPink.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: _borderColor, width: 2),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: _borderColor,
-                              offset: Offset(2, 2),
-                              blurRadius: 0,
-                            ),
-                          ],
                         ),
                         child: Text(
                           '-${widget.product.discountPercent}%',
                           style: const TextStyle(
                             fontSize: 12,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900,
+                            color: _accentPink,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       )
@@ -120,15 +109,21 @@ class _ProductCardState extends State<ProductCard>
                           );
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          color: _pink.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: _borderColor, width: 1.5),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: const Icon(
                           Icons.favorite_border_rounded,
-                          color: _pink,
+                          color: _textLight,
                           size: 18,
                         ),
                       ),
@@ -137,31 +132,27 @@ class _ProductCardState extends State<ProductCard>
                 ),
               ),
 
-              // ── Product image in bordered frame ────────────────────
+              // ── Product image ────────────────────
               Expanded(
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: _lavender.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: _borderColor.withValues(alpha: 0.3),
-                        width: 2,
-                      ),
+                      color: _bgLight,
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
                         widget.product.imageUrl,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => Container(
                           height: 80,
                           width: 80,
-                          color: _orange.withValues(alpha: 0.15),
+                          color: _bgLight,
                           child: const Icon(
                             Icons.image_not_supported_outlined,
-                            color: _borderColor,
+                            color: _textLight,
                           ),
                         ),
                       ),
@@ -172,15 +163,15 @@ class _ProductCardState extends State<ProductCard>
 
               // ── Product name ───────────────────────────────────────
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text(
                   widget.product.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 14,
-                    color: _borderColor,
-                    fontWeight: FontWeight.w800,
+                    color: _textDark,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -188,44 +179,33 @@ class _ProductCardState extends State<ProductCard>
 
               // ── Description ────────────────────────────────────────
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text(
                   widget.product.description,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: _borderColor.withValues(alpha: 0.6),
-                    fontWeight: FontWeight.w600,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: _textLight,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
 
               // ── Price + cart button row ─────────────────────────────
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Price tag
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: _teal.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: _borderColor, width: 1.5),
-                      ),
-                      child: Text(
-                        '\$${widget.product.price.toStringAsFixed(0)}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                          color: _borderColor,
-                        ),
+                    Text(
+                      '\$${widget.product.price.toStringAsFixed(0)}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: _primary,
                       ),
                     ),
 
@@ -241,22 +221,14 @@ class _ProductCardState extends State<ProductCard>
                           );
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(6),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: _green,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: _borderColor, width: 2),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: _borderColor,
-                              offset: Offset(2, 2),
-                              blurRadius: 0,
-                            ),
-                          ],
+                          color: _primary,
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
                           Icons.add_shopping_cart_rounded,
-                          size: 18,
+                          size: 16,
                           color: Colors.white,
                         ),
                       ),

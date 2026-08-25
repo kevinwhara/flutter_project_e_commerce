@@ -2,35 +2,30 @@ import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 
-/// Neo Brutalism styled product detail page.
+/// Professional Mobile UI styled product detail page.
 class ProductDetailPage extends StatelessWidget {
   const ProductDetailPage({super.key});
 
-  static const _borderColor = Color(0xFF1A1A2E);
-  static const _bgColor = Color(0xFFFFF59D);
-  static const _pink = Color(0xFFFF6B6B);
-  static const _teal = Color(0xFF4ECDC4);
-  static const _green = Color(0xFF4CAF50);
-  static const _orange = Color(0xFFFFB74D);
-  static const _lavender = Color(0xFFD1C4E9);
+  static const _textDark = Color(0xFF2D3142);
+  static const _textLight = Color(0xFF9094A6);
+  static const _bgLight = Color(0xFFF8F9FA);
+  static const _primary = Color(0xFF4C53A5);
+  static const _accentPink = Color(0xFFFF6B6B);
+  static const _surface = Colors.white;
 
   @override
   Widget build(BuildContext context) {
     final product = ModalRoute.of(context)!.settings.arguments as Product;
 
     return Scaffold(
-      backgroundColor: _bgColor,
+      backgroundColor: _bgLight,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: _borderColor,
+        backgroundColor: _surface,
+        foregroundColor: _textDark,
         elevation: 0,
         title: Text(
           product.name,
-          style: const TextStyle(fontWeight: FontWeight.w900, color: _borderColor),
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(3.5),
-          child: Container(color: _borderColor, height: 3.5),
+          style: const TextStyle(fontWeight: FontWeight.w700, color: _textDark),
         ),
       ),
       body: SingleChildScrollView(
@@ -38,16 +33,15 @@ class ProductDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Product image in bordered frame ──────────────────────
+            // ── Product image ──────────────────────
             Center(
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: _borderColor, width: 3),
-                  boxShadow: const [
-                    BoxShadow(color: _borderColor, offset: Offset(5, 5), blurRadius: 0),
+                  color: _surface,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.04), offset: const Offset(0, 8), blurRadius: 24),
                   ],
                 ),
                 child: Image.asset(
@@ -55,97 +49,73 @@ class ProductDetailPage extends StatelessWidget {
                   height: 200, width: 200,
                   errorBuilder: (context, error, stackTrace) => Container(
                     height: 200, width: 200,
-                    color: _lavender.withValues(alpha: 0.2),
-                    child: const Icon(Icons.image_not_supported_outlined, size: 48, color: _borderColor),
+                    color: _bgLight,
+                    child: const Icon(Icons.image_not_supported_outlined, size: 48, color: _textLight),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 32),
 
             // ── Name ─────────────────────────────────────────────────
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: _borderColor, width: 3),
-                boxShadow: const [
-                  BoxShadow(color: _borderColor, offset: Offset(3, 3), blurRadius: 0),
-                ],
-              ),
-              child: Text(
-                product.name,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: _borderColor),
-              ),
+            Text(
+              product.name,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: _textDark),
             ),
             const SizedBox(height: 16),
 
             // ── Price + Discount row ─────────────────────────────────
             Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: _teal.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: _borderColor, width: 2.5),
-                    boxShadow: const [
-                      BoxShadow(color: _borderColor, offset: Offset(3, 3), blurRadius: 0),
-                    ],
-                  ),
-                  child: Text(
-                    '\$${product.price.toStringAsFixed(0)}',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: _borderColor),
-                  ),
+                Text(
+                  '\$${product.price.toStringAsFixed(2)}',
+                  style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: _primary),
                 ),
                 if (product.discountPercent > 0) ...[
                   const SizedBox(width: 12),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: _pink,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: _borderColor, width: 2.5),
-                      boxShadow: const [
-                        BoxShadow(color: _borderColor, offset: Offset(2, 2), blurRadius: 0),
-                      ],
+                      color: _accentPink.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       '-${product.discountPercent}%',
-                      style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w900),
+                      style: const TextStyle(fontSize: 14, color: _accentPink, fontWeight: FontWeight.w700),
                     ),
                   ),
                 ],
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
 
             // ── Description ──────────────────────────────────────────
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: _orange.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: _borderColor, width: 2.5),
+                color: _surface,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withOpacity(0.02), offset: const Offset(0, 4), blurRadius: 12),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Row(
                     children: [
-                      Icon(Icons.description_rounded, size: 20, color: _borderColor),
+                      Icon(Icons.description_outlined, size: 20, color: _primary),
                       SizedBox(width: 8),
-                      Text('Deskripsi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: _borderColor)),
+                      Text('Deskripsi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: _textDark)),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(product.description, style: TextStyle(fontSize: 14, color: _borderColor.withValues(alpha: 0.7), fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 12),
+                  Text(product.description, style: const TextStyle(fontSize: 14, color: _textLight, height: 1.5)),
                 ],
               ),
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 32),
 
             // ── Add to Cart button ───────────────────────────────────
             GestureDetector(
@@ -158,11 +128,10 @@ class ProductDetailPage extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 decoration: BoxDecoration(
-                  color: _green,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: _borderColor, width: 3.5),
-                  boxShadow: const [
-                    BoxShadow(color: _borderColor, offset: Offset(4.5, 4.5), blurRadius: 0),
+                  color: _primary,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(color: _primary.withOpacity(0.3), offset: const Offset(0, 4), blurRadius: 16),
                   ],
                 ),
                 child: const Row(
@@ -170,13 +139,12 @@ class ProductDetailPage extends StatelessWidget {
                   children: [
                     Icon(Icons.add_shopping_cart_rounded, color: Colors.white, size: 22),
                     SizedBox(width: 10),
-                    Text('Add to Cart', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900)),
-                    SizedBox(width: 8),
-                    Text('🛒', style: TextStyle(fontSize: 18)),
+                    Text('Add to Cart', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700)),
                   ],
                 ),
               ),
             ),
+            const SizedBox(height: 16),
           ],
         ),
       ),

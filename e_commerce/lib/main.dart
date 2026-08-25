@@ -19,8 +19,8 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const _borderColor = Color(0xFF1A1A2E);
-  static const _bgColor = Color(0xFFFFF59D);
+  static const _primaryColor = Color(0xFF4C53A5);
+  static const _bgColor = Color(0xFFF8F9FA);
 
   @override
   Widget build(BuildContext context) {
@@ -29,23 +29,24 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: _borderColor,
+          seedColor: _primaryColor,
+          primary: _primaryColor,
           surface: Colors.white,
+          background: _bgColor,
         ),
         scaffoldBackgroundColor: _bgColor,
         useMaterial3: true,
-        // Neo Brutalism global text theme
+        // Professional Mobile UI global text theme
         textTheme: const TextTheme(
-          bodyMedium: TextStyle(fontWeight: FontWeight.w600, color: _borderColor),
-          bodyLarge: TextStyle(fontWeight: FontWeight.w600, color: _borderColor),
+          bodyMedium: TextStyle(fontWeight: FontWeight.w500, color: Color(0xFF2D3142)),
+          bodyLarge: TextStyle(fontWeight: FontWeight.w500, color: Color(0xFF2D3142)),
         ),
         // Snackbar styling
         snackBarTheme: SnackBarThemeData(
-          backgroundColor: _borderColor,
-          contentTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+          backgroundColor: const Color(0xFF323232),
+          contentTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: const BorderSide(color: _borderColor, width: 2),
+            borderRadius: BorderRadius.circular(8),
           ),
           behavior: SnackBarBehavior.floating,
         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Neo Brutalism styled category chips with colorful fills and emojis.
+/// Professional Mobile UI styled category chips.
 class CategoriesWidget extends StatefulWidget {
   const CategoriesWidget({super.key});
 
@@ -11,8 +11,6 @@ class CategoriesWidget extends StatefulWidget {
 class _CategoriesWidgetState extends State<CategoriesWidget>
     with SingleTickerProviderStateMixin {
   late final AnimationController _staggerController;
-
-  static const _borderColor = Color(0xFF1A1A2E);
 
   // Each category gets its own color + icon
   static const List<_CategoryData> _categories = [
@@ -72,42 +70,40 @@ class _CategoriesWidgetState extends State<CategoriesWidget>
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 6),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         decoration: BoxDecoration(
-          color: data.fillColor,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: _borderColor, width: 2.5),
-          boxShadow: const [
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
             BoxShadow(
-              color: _borderColor,
-              offset: Offset(3, 3),
-              blurRadius: 0,
+              color: Colors.black.withOpacity(0.04),
+              offset: const Offset(0, 4),
+              blurRadius: 10,
             ),
           ],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Icon in a small bordered circle
+            // Icon in a small circle
             Container(
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: data.accentColor.withValues(alpha: 0.3),
+                color: data.fillColor,
                 shape: BoxShape.circle,
-                border: Border.all(color: _borderColor, width: 2),
               ),
               child: Center(
-                child: Icon(data.icon, size: 20, color: _borderColor),
+                child: Icon(data.icon, size: 20, color: data.accentColor),
               ),
             ),
             const SizedBox(width: 8),
             Text(
               data.label,
               style: const TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
-                color: _borderColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                color: Color(0xFF2D3142),
               ),
             ),
           ],

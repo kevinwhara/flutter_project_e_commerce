@@ -10,14 +10,15 @@ import 'account_page.dart';
 import 'cart_page.dart';
 
 // ══════════════════════════════════════════════════════════════════════
-//  NEO BRUTALISM COLORS (shared across home page components)
+//  PROFESSIONAL UI COLORS (shared across home page components)
 // ══════════════════════════════════════════════════════════════════════
-const _bgColor = Color(0xFFFFF59D);
-const _borderColor = Color(0xFF1A1A2E);
-const _pink = Color(0xFFFF6B6B);
-const _teal = Color(0xFF4ECDC4);
-const _orange = Color(0xFFFFB74D);
-const _purple = Color(0xFFAB47BC);
+const _bgColor = Color(0xFFF8F9FA);
+const _primary = Color(0xFF4C53A5);
+const _textDark = Color(0xFF2D3142);
+const _textLight = Color(0xFF9094A6);
+const _accentPink = Color(0xFFFF6B6B);
+const _accentTeal = Color(0xFF4ECDC4);
+const _accentOrange = Color(0xFFFFB74D);
 
 // ══════════════════════════════════════════════════════════════════════
 //  HOME PAGE CONTENT (tab 0)
@@ -98,7 +99,7 @@ class _HomePageContentState extends State<HomePageContent>
                   child: _buildSectionHeader(
                     'Kategori',
                     Icons.category_rounded,
-                    _teal.withValues(alpha: 0.25),
+                    _accentTeal,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -118,7 +119,7 @@ class _HomePageContentState extends State<HomePageContent>
                   child: _buildSectionHeader(
                     'Populer',
                     Icons.local_fire_department_rounded,
-                    _pink.withValues(alpha: 0.2),
+                    _accentPink,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -137,53 +138,53 @@ class _HomePageContentState extends State<HomePageContent>
     );
   }
 
-  // ── Section header Neo Brutalism banner ────────────────────────────
-  Widget _buildSectionHeader(String title, IconData icon, Color bgColor) {
+  // ── Section header Professional UI ────────────────────────────
+  Widget _buildSectionHeader(String title, IconData icon, Color accentColor) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: _borderColor, width: 2.5),
-        boxShadow: const [
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
           BoxShadow(
-            color: _borderColor,
-            offset: Offset(3, 3),
-            blurRadius: 0,
+            color: Colors.black.withOpacity(0.03),
+            offset: const Offset(0, 4),
+            blurRadius: 10,
           ),
         ],
       ),
       child: Row(
         children: [
-          Icon(icon, size: 24, color: Colors.white),
-          const SizedBox(width: 10),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: accentColor.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, size: 20, color: accentColor),
+          ),
+          const SizedBox(width: 12),
           Text(
             title,
             style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: _textDark,
               letterSpacing: -0.3,
             ),
           ),
           const Spacer(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: _borderColor, width: 1.5),
-            ),
-            child: const Text(
-              'Lihat ➜',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w800,
-                color: _borderColor,
-              ),
+          Text(
+            'Lihat semua',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: _primary,
             ),
           ),
+          const SizedBox(width: 4),
+          Icon(Icons.arrow_forward_ios_rounded, size: 12, color: _primary),
         ],
       ),
     );
@@ -256,9 +257,9 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin {
 
   // Nav items data
   static const _navData = [
-    _NavItem(Icons.home_rounded, 'Home', _teal),
-    _NavItem(Icons.shopping_cart_rounded, 'Cart', _orange),
-    _NavItem(Icons.person_rounded, 'Account', _purple),
+    _NavItem(Icons.home_rounded, 'Home'),
+    _NavItem(Icons.shopping_cart_rounded, 'Cart'),
+    _NavItem(Icons.person_rounded, 'Account'),
   ];
 
   @override
@@ -270,20 +271,24 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin {
         onPageChanged: (index) => setState(() => _currentIndex = index),
         children: const [HomePageContent(), CartPage(), AccountPage()],
       ),
-      bottomNavigationBar: _buildNeoBrutBottomNav(),
+      bottomNavigationBar: _buildProfessionalBottomNav(),
     );
   }
 
-  // ── Neo Brutalism Bottom Navigation Bar ────────────────────────────
-  Widget _buildNeoBrutBottomNav() {
+  // ── Professional Bottom Navigation Bar ────────────────────────────
+  Widget _buildProfessionalBottomNav() {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(
-          top: BorderSide(color: _borderColor, width: 3.5),
-        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            offset: const Offset(0, -4),
+            blurRadius: 16,
+          ),
+        ],
       ),
-      padding: const EdgeInsets.only(top: 8, bottom: 20, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 12, bottom: 24, left: 16, right: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -299,39 +304,25 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin {
 
     return GestureDetector(
       onTap: () => _onNavTap(index),
+      behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeOutBack,
-        padding: EdgeInsets.symmetric(
-          horizontal: isActive ? 16 : 12,
-          vertical: 8,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive ? data.color : Colors.transparent,
+          color: isActive ? _primary.withOpacity(0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
-          border: isActive
-              ? Border.all(color: _borderColor, width: 2.5)
-              : Border.all(color: Colors.transparent, width: 2.5),
-          boxShadow: isActive
-              ? const [
-                  BoxShadow(
-                    color: _borderColor,
-                    offset: Offset(3, 3),
-                    blurRadius: 0,
-                  ),
-                ]
-              : [],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             AnimatedScale(
-              scale: isActive ? 1.15 : 1.0,
+              scale: isActive ? 1.1 : 1.0,
               duration: const Duration(milliseconds: 250),
               child: Icon(
                 data.icon,
-                size: 26,
-                color: isActive ? Colors.white : _borderColor.withValues(alpha: 0.5),
+                size: 24,
+                color: isActive ? _primary : _textLight,
               ),
             ),
             if (isActive) ...[
@@ -340,8 +331,8 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin {
                 data.label,
                 style: const TextStyle(
                   fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  color: _primary,
                 ),
               ),
             ],
@@ -353,8 +344,7 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin {
 }
 
 class _NavItem {
-  const _NavItem(this.icon, this.label, this.color);
+  const _NavItem(this.icon, this.label);
   final IconData icon;
   final String label;
-  final Color color;
 }
