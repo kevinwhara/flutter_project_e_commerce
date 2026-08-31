@@ -6,6 +6,7 @@ import '../widgets/categories_widget.dart';
 import '../widgets/home_app_bar.dart';
 import '../widgets/items_widget.dart';
 import '../widgets/search_bar_widget.dart';
+import '../widgets/promo_banner_widget.dart';
 import 'account_page.dart';
 import 'cart_page.dart';
 
@@ -91,6 +92,14 @@ class _HomePageContentState extends State<HomePageContent>
                 ),
                 const SizedBox(height: 24),
 
+                // Promo Banner
+                _slideIn(
+                  delay: 0.05,
+                  end: 0.45,
+                  child: const PromoBannerWidget(),
+                ),
+                const SizedBox(height: 24),
+
                 // Section: Kategori
                 _slideIn(
                   delay: 0.1,
@@ -139,20 +148,8 @@ class _HomePageContentState extends State<HomePageContent>
 
   // ── Section header Professional UI ────────────────────────────
   Widget _buildSectionHeader(String title, IconData icon, Color accentColor) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            offset: const Offset(0, 4),
-            blurRadius: 10,
-          ),
-        ],
-      ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Row(
         children: [
           Container(
@@ -161,16 +158,15 @@ class _HomePageContentState extends State<HomePageContent>
               color: accentColor.withOpacity(0.15),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, size: 20, color: accentColor),
+            child: Icon(icon, color: accentColor, size: 20),
           ),
           const SizedBox(width: 12),
           Text(
             title,
             style: const TextStyle(
               fontSize: 18,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               color: _textDark,
-              letterSpacing: -0.3,
             ),
           ),
           const Spacer(),
@@ -178,12 +174,11 @@ class _HomePageContentState extends State<HomePageContent>
             'Lihat semua',
             style: TextStyle(
               fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: _primary,
+              fontWeight: FontWeight.w700,
+              color: _primary.withOpacity(0.8),
             ),
           ),
-          const SizedBox(width: 4),
-          Icon(Icons.arrow_forward_ios_rounded, size: 12, color: _primary),
+          Icon(Icons.chevron_right_rounded, color: _primary.withOpacity(0.8), size: 18),
         ],
       ),
     );
