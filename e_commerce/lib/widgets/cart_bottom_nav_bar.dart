@@ -42,55 +42,8 @@ class CartBottomNavBar extends StatelessWidget {
           // Checkout button
           GestureDetector(
             onTap: () {
-              showDialog(
-                context: context,
-                builder: (ctx) => Dialog(
-                  backgroundColor: Colors.transparent,
-                  child: Container(
-                    padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.check_circle_rounded, size: 64, color: _primary),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Pesanan Berhasil!',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: _textDark),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Barangmu sedang diproses dan akan segera dikirim.',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: _textDark.withOpacity(0.7)),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 24),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(ctx); // Close dialog
-                            Navigator.pushReplacementNamed(context, '/home'); // Go to home
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(colors: [Color(0xFF6B73FF), Color(0xFF4C53A5)], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Center(
-                              child: Text('Kembali Belanja', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16)),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              );
+              if (totalPrice <= 0) return;
+              Navigator.pushNamed(context, '/checkout');
             },
             child: Container(
               height: 54,

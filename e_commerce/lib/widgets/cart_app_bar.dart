@@ -23,7 +23,7 @@ class CartAppBar extends StatelessWidget {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pop(context),
+            onTap: () => Navigator.pushReplacementNamed(context, '/home'),
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(

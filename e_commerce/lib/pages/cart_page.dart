@@ -35,9 +35,9 @@ class _CartPageState extends State<CartPage> {
   }
 
   void _checkout() {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('Checkout belum tersedia')));
+    if (cartProvider.items.isNotEmpty) {
+      cartProvider.clearCart();
+    }
   }
 
   @override

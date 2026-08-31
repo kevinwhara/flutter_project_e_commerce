@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'models/chat_preview.dart';
 import 'pages/address_page.dart';
 import 'pages/cart_page.dart';
+import 'pages/checkout_page.dart';
 import 'pages/detail_chat.dart';
 import 'pages/favorite_page.dart';
 import 'pages/help_center_page.dart';
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
         '/address': (context) => const AddressPage(),
         '/help-center': (context) => const HelpCenterPage(),
         '/favorite': (context) => const FavoritePage(),
+        '/checkout': (context) => const CheckoutPage(),
       },
     );
   }
