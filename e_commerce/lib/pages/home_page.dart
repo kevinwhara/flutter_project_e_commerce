@@ -18,7 +18,6 @@ const _textDark = Color(0xFF2D3142);
 const _textLight = Color(0xFF9094A6);
 const _accentPink = Color(0xFFFF6B6B);
 const _accentTeal = Color(0xFF4ECDC4);
-const _accentOrange = Color(0xFFFFB74D);
 
 // ══════════════════════════════════════════════════════════════════════
 //  HOME PAGE CONTENT (tab 0)

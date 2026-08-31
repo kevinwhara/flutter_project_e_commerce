@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
+import '../providers/cart_provider.dart';
+import '../providers/favorite_provider.dart';
 
 /// Professional Mobile UI styled product card.
 class ProductCard extends StatefulWidget {
@@ -98,35 +100,46 @@ class _ProductCardState extends State<ProductCard>
                       const SizedBox.shrink(),
 
                     // Favorite icon
-                    GestureDetector(
-                      onTap: () {
-                        ScaffoldMessenger.of(context)
-                          ..hideCurrentSnackBar()
-                          ..showSnackBar(
-                            SnackBar(
-                              content: Text('${widget.product.name} ditambahkan ke Favorit! ❤️'),
+                    ListenableBuilder(
+                      listenable: favoriteProvider,
+                      builder: (context, _) {
+                        final isFav = favoriteProvider.isFavorite(widget.product.id);
+                        return GestureDetector(
+                          onTap: () {
+                            favoriteProvider.toggleFavorite(widget.product);
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    isFav 
+                                      ? '${widget.product.name} dihapus dari Favorit'
+                                      : '${widget.product.name} ditambahkan ke Favorit! ❤️'
+                                  ),
+                                ),
+                              );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
                             ),
-                          );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
+                            child: Icon(
+                              isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                              color: isFav ? _accentPink : _textLight,
+                              size: 18,
                             ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.favorite_border_rounded,
-                          color: _textLight,
-                          size: 18,
-                        ),
-                      ),
+                          ),
+                        );
+                      }
                     ),
                   ],
                 ),
@@ -212,6 +225,7 @@ class _ProductCardState extends State<ProductCard>
                     // Cart button
                     GestureDetector(
                       onTap: () {
+                        cartProvider.addToCart(widget.product);
                         ScaffoldMessenger.of(context)
                           ..hideCurrentSnackBar()
                           ..showSnackBar(

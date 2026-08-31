@@ -4,10 +4,12 @@ import 'models/chat_preview.dart';
 import 'pages/address_page.dart';
 import 'pages/cart_page.dart';
 import 'pages/detail_chat.dart';
+import 'pages/favorite_page.dart';
 import 'pages/help_center_page.dart';
 import 'pages/home_page.dart';
 import 'pages/list_chat.dart';
 import 'pages/login_page.dart';
+import 'pages/onboarding_page.dart';
 import 'pages/order_history_page.dart';
 import 'pages/product_detail_page.dart';
 import 'pages/register_page.dart';
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
 
   static const _primaryColor = Color(0xFF4C53A5);
   static const _bgColor = Color(0xFFF8F9FA);
+  static const _borderColor = Color(0xFF1A1A2E);
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +46,18 @@ class MyApp extends StatelessWidget {
         ),
         // Snackbar styling
         snackBarTheme: SnackBarThemeData(
-          backgroundColor: const Color(0xFF323232),
-          contentTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+          backgroundColor: _borderColor,
+          contentTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
+            side: const BorderSide(color: _borderColor, width: 2),
           ),
           behavior: SnackBarBehavior.floating,
         ),
       ),
-      initialRoute: '/login',
+      initialRoute: '/onboarding',
       routes: {
+        '/onboarding': (context) => const OnboardingPage(),
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/home': (context) => const Homepage(),
@@ -66,6 +71,7 @@ class MyApp extends StatelessWidget {
         '/order-history': (context) => const OrderHistoryPage(),
         '/address': (context) => const AddressPage(),
         '/help-center': (context) => const HelpCenterPage(),
+        '/favorite': (context) => const FavoritePage(),
       },
     );
   }

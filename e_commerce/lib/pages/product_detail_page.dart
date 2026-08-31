@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
+import '../providers/cart_provider.dart';
+import '../providers/favorite_provider.dart';
 
 /// Professional Mobile UI styled product detail page.
 class ProductDetailPage extends StatelessWidget {
@@ -27,6 +29,35 @@ class ProductDetailPage extends StatelessWidget {
           product.name,
           style: const TextStyle(fontWeight: FontWeight.w700, color: _textDark),
         ),
+        actions: [
+          ListenableBuilder(
+            listenable: favoriteProvider,
+            builder: (context, _) {
+              final isFav = favoriteProvider.isFavorite(product.id);
+              return IconButton(
+                onPressed: () {
+                  favoriteProvider.toggleFavorite(product);
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          isFav
+                            ? '${product.name} dihapus dari Favorit'
+                            : '${product.name} ditambahkan ke Favorit! ❤️'
+                        ),
+                      ),
+                    );
+                },
+                icon: Icon(
+                  isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                  color: isFav ? _accentPink : _textDark,
+                ),
+              );
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -120,9 +151,10 @@ class ProductDetailPage extends StatelessWidget {
             // ── Add to Cart button ───────────────────────────────────
             GestureDetector(
               onTap: () {
+                cartProvider.addToCart(product);
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
-                  ..showSnackBar(const SnackBar(content: Text('Ditambahkan ke keranjang (dummy)')));
+                  ..showSnackBar(SnackBar(content: Text('${product.name} ditambahkan ke keranjang')));
               },
               child: Container(
                 width: double.infinity,

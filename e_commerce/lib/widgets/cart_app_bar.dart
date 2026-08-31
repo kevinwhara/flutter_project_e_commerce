@@ -5,7 +5,6 @@ class CartAppBar extends StatelessWidget {
   const CartAppBar({super.key});
 
   static const _textDark = Color(0xFF2D3142);
-  static const _primary = Color(0xFF4C53A5);
 
   @override
   Widget build(BuildContext context) {

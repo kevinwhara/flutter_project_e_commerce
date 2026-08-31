@@ -6,7 +6,6 @@ class SearchBarWidget extends StatelessWidget {
 
   final ValueChanged<String> onChanged;
 
-  static const _primary = Color(0xFF4C53A5);
   static const _textDark = Color(0xFF2D3142);
   static const _textLight = Color(0xFF9094A6);
 

@@ -23,7 +23,6 @@ class _ChatScreenState extends State<ChatScreen> {
   static const _textLight = Color(0xFF9094A6);
   static const _bgLight = Color(0xFFF8F9FA);
   static const _primary = Color(0xFF4C53A5);
-  static const _primaryLight = Color(0xFFE8E9F4);
   static const _surface = Colors.white;
 
   @override

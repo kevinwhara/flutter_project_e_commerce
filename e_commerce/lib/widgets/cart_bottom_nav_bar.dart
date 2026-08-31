@@ -9,7 +9,6 @@ class CartBottomNavBar extends StatelessWidget {
 
   static const _textDark = Color(0xFF2D3142);
   static const _primary = Color(0xFF4C53A5);
-  static const _bgLight = Color(0xFFF8F9FA);
 
   @override
   Widget build(BuildContext context) {

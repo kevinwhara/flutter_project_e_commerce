@@ -102,6 +102,7 @@ class _AccountPageState extends State<AccountPage> {
             const SizedBox(height: 32),
 
             // ── Menus ─────────────────────────────────────────────
+            _buildMenuTile(Icons.favorite_rounded, 'Favorit Saya', _accentPink, context, route: '/favorite'),
             _buildMenuTile(Icons.shopping_bag_outlined, 'Riwayat Pesanan', const Color(0xFF4ECDC4), context, route: '/order-history'),
             _buildMenuTile(Icons.location_on_outlined, 'Alamat Pengiriman', const Color(0xFFFFB74D), context, route: '/address'),
             _buildMenuTile(Icons.notifications_none_rounded, 'Notifikasi', _accentPink, context),

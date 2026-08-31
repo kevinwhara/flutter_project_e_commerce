@@ -101,6 +101,20 @@ class _HomeAppBarState extends State<HomeAppBar>
             ),
           ),
 
+          // ── Favorite Icon ───────────────────────────────────────────
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/favorite'),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: _accentPink.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.favorite_border_rounded, size: 22, color: _accentPink),
+            ),
+          ),
+          const SizedBox(width: 12),
+
           // ── Message badge with wiggle animation ───────────────────
           AnimatedBuilder(
             animation: _wiggleAnim,
@@ -132,8 +146,7 @@ class _HomeAppBarState extends State<HomeAppBar>
                 ),
                 child: InkWell(
                   onTap: () => Navigator.pushNamed(context, '/chat-list'),
-                  child:
-                      const Icon(Icons.chat_bubble_outline_rounded, size: 22, color: _primary),
+                  child: const Icon(Icons.chat_bubble_outline_rounded, size: 22, color: _primary),
                 ),
               ),
             ),
