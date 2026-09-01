@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-
 import '../models/cart_item.dart';
 
-/// Professional Mobile UI styled cart item tile.
+/// Swipe-to-delete cart item tile with modern UI.
 class CartItemTile extends StatelessWidget {
-  const CartItemTile({super.key, required this.item, required this.onIncrement, required this.onDecrement, required this.onDelete});
+  const CartItemTile({
+    super.key,
+    required this.item,
+    required this.onIncrement,
+    required this.onDecrement,
+    required this.onDelete,
+  });
 
   final CartItem item;
   final VoidCallback onIncrement;
@@ -15,93 +20,103 @@ class CartItemTile extends StatelessWidget {
   static const _textLight = Color(0xFF9094A6);
   static const _primary = Color(0xFF4C53A5);
   static const _accentPink = Color(0xFFFF6B6B);
-  static const _bgLight = Color(0xFFF8F9FA);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), offset: const Offset(0, 4), blurRadius: 12)],
+    return Dismissible(
+      key: ValueKey(item.id),
+      direction: DismissDirection.endToStart,
+      onDismissed: (_) => onDelete(),
+      background: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)]),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 24),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.delete_rounded, color: Colors.white, size: 28),
+            SizedBox(height: 4),
+            Text('Hapus', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12)),
+          ],
+        ),
       ),
-      child: Row(
-        children: [
-          // Product image
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: _bgLight,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withValues(alpha: 0.03), offset: const Offset(0, 4), blurRadius: 12),
+          ],
+        ),
+        child: Row(
+          children: [
+            // Image
+            ClipRRect(
               borderRadius: BorderRadius.circular(12),
-            ),
-            child: Image.asset(
-              item.imageUrl, width: 60, height: 60, fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                width: 60, height: 60,
-                color: _bgLight,
-                child: const Icon(Icons.image_not_supported_outlined, color: _textLight),
-              ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          // Name + price
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(item.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: _textDark)),
-                const SizedBox(height: 8),
-                Text('\$${item.price.toStringAsFixed(2)}', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: _primary)),
-              ],
-            ),
-          ),
-          // Controls column
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              // Delete button
-              GestureDetector(
-                onTap: onDelete,
-                child: Container(
-                  padding: const EdgeInsets.all(6),
+              child: Image.asset(
+                item.imageUrl,
+                width: 70, height: 70,
+                fit: BoxFit.cover,
+                errorBuilder: (c, e, s) => Container(
+                  width: 70, height: 70,
                   decoration: BoxDecoration(
-                    color: _accentPink.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
+                    color: const Color(0xFFF1F3F5),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(Icons.delete_outline_rounded, color: _accentPink, size: 20),
+                  child: const Icon(Icons.image, color: _textLight),
                 ),
               ),
-              const SizedBox(height: 12),
-              // Quantity controls
-              Row(
+            ),
+            const SizedBox(width: 14),
+
+            // Info
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _qtyButton(Icons.remove, onDecrement),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Text('${item.quantity}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: _textDark)),
-                  ),
-                  _qtyButton(Icons.add, onIncrement),
+                  Text(item.name, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: _textDark), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  const SizedBox(height: 6),
+                  Text('\$${item.price.toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16, color: _primary)),
                 ],
               ),
-            ],
-          ),
-        ],
+            ),
+
+            // Quantity controls
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F3F5),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildQtyButton(Icons.remove_rounded, onDecrement),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text('${item.quantity}', style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15, color: _textDark)),
+                  ),
+                  _buildQtyButton(Icons.add_rounded, onIncrement),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _qtyButton(IconData icon, VoidCallback onTap) {
+  Widget _buildQtyButton(IconData icon, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: _bgLight,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Icon(icon, size: 16, color: _textDark),
+        padding: const EdgeInsets.all(8),
+        child: Icon(icon, size: 18, color: _primary),
       ),
     );
   }

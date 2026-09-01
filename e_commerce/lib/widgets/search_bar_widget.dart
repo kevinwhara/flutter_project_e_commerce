@@ -1,71 +1,57 @@
 import 'package:flutter/material.dart';
 
-/// Professional Mobile UI styled search bar.
+/// Enhanced search bar with filter icon.
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({super.key, required this.onChanged});
 
   final ValueChanged<String> onChanged;
 
-  static const _textDark = Color(0xFF2D3142);
   static const _textLight = Color(0xFF9094A6);
+  static const _primary = Color(0xFF4C53A5);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            offset: const Offset(0, 4),
-            blurRadius: 16,
-          ),
-        ],
-      ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          // ── Search icon ────────────────────────────
-          Container(
-            margin: const EdgeInsets.only(left: 12),
-            padding: const EdgeInsets.all(8),
-            child: const Icon(Icons.search_rounded, size: 22, color: _textLight),
-          ),
-          const SizedBox(width: 4),
-
-          // ── Text field ────────────────────────────────────────────
+          // Search field
           Expanded(
-            child: TextFormField(
-              onChanged: onChanged,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                color: _textDark,
-                fontSize: 15,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withValues(alpha: 0.04), offset: const Offset(0, 4), blurRadius: 16),
+                ],
               ),
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Cari produk...',
-                hintStyle: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: _textLight,
-                  fontSize: 15,
+              child: TextField(
+                onChanged: onChanged,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFF2D3142)),
+                decoration: InputDecoration(
+                  hintText: 'Cari produk...',
+                  hintStyle: TextStyle(fontWeight: FontWeight.w400, color: _textLight.withValues(alpha: 0.6)),
+                  prefixIcon: const Icon(Icons.search_rounded, color: _textLight, size: 22),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                  filled: true,
+                  fillColor: Colors.white,
                 ),
-                contentPadding: EdgeInsets.symmetric(vertical: 16),
               ),
             ),
           ),
-
-          // ── Camera icon ───────────────────────────
+          const SizedBox(width: 12),
+          // Filter button
           Container(
-            margin: const EdgeInsets.only(right: 12),
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFF1F3F5),
-              borderRadius: BorderRadius.circular(10),
+              gradient: const LinearGradient(colors: [Color(0xFF6B73FF), Color(0xFF4C53A5)]),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(color: _primary.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4)),
+              ],
             ),
-            child:
-                const Icon(Icons.camera_alt_rounded, size: 20, color: _textDark),
+            child: const Icon(Icons.tune_rounded, color: Colors.white, size: 22),
           ),
         ],
       ),

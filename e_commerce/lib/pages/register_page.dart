@@ -108,16 +108,93 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: _bgColor,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-          child: ScaleTransition(
-            scale: _bounceAnim,
-            child: _buildCard(),
+      body: Stack(
+        children: [
+          // Curved gradient header with decorative circles
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: size.height * 0.35,
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: _primaryGradient,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(40),
+                  bottomRight: Radius.circular(40),
+                ),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: -50,
+                    right: -50,
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.1),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 50,
+                    left: -30,
+                    child: Container(
+                      width: 140,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.1),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
+          
+          SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                child: Column(
+                  children: [
+                    // Icon inside a large white circle on the gradient
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 20,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.person_add_rounded,
+                        size: 56,
+                        color: _primary,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    ScaleTransition(
+                      scale: _bounceAnim,
+                      child: _buildCard(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -130,7 +207,7 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             offset: const Offset(0, 10),
             blurRadius: 30,
           ),
@@ -143,23 +220,33 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.person_add_rounded, size: 48, color: _primary),
-              const SizedBox(height: 16),
-              const Text('Create Account', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: _textDark, letterSpacing: -0.5)),
+              const Text('Buat Akun Baru', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: _textDark, letterSpacing: -0.5)),
               const SizedBox(height: 8),
-              const Text('Sign up to get started', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: _textLight)),
+              const Text('Daftar untuk mulai berbelanja', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: _textLight)),
               const SizedBox(height: 32),
+
               _staggeredSlide(delay: 0.0, end: 0.35, child: _buildField(label: 'Name', icon: Icons.person_rounded, controller: _nameController, validator: Validators.name, keyboardType: TextInputType.name, textInputAction: TextInputAction.next)),
               const SizedBox(height: 16),
+              
               _staggeredSlide(delay: 0.1, end: 0.45, child: _buildField(label: 'Email', icon: Icons.email_rounded, controller: _emailController, validator: Validators.email, keyboardType: TextInputType.emailAddress, textInputAction: TextInputAction.next)),
               const SizedBox(height: 16),
+              
               _staggeredSlide(delay: 0.2, end: 0.55, child: _buildField(label: 'Password', icon: Icons.lock_rounded, controller: _passwordController, validator: Validators.password, isPassword: true, obscure: _obscurePassword, onToggle: () => setState(() => _obscurePassword = !_obscurePassword), textInputAction: TextInputAction.next)),
               const SizedBox(height: 16),
+              
               _staggeredSlide(delay: 0.3, end: 0.65, child: _buildField(label: 'Confirm Password', icon: Icons.lock_outline_rounded, controller: _confirmController, fieldKey: _confirmFieldKey, validator: (_) => Validators.confirmPassword(_confirmController.text, _passwordController.text), isPassword: true, obscure: _obscureConfirm, onToggle: () => setState(() => _obscureConfirm = !_obscureConfirm), textInputAction: TextInputAction.done)),
               const SizedBox(height: 32),
-              _staggeredSlide(delay: 0.45, end: 0.8, child: _buildButton()),
+              
+              _staggeredSlide(delay: 0.45, end: 0.75, child: _buildButton()),
               const SizedBox(height: 24),
-              _staggeredSlide(delay: 0.55, end: 0.9, child: _buildLoginLink()),
+              
+              _staggeredSlide(delay: 0.55, end: 0.85, child: _buildDivider()),
+              const SizedBox(height: 24),
+
+              _staggeredSlide(delay: 0.65, end: 0.9, child: _buildSocialLogin()),
+              const SizedBox(height: 24),
+
+              _staggeredSlide(delay: 0.7, end: 1.0, child: _buildLoginLink()),
             ],
           ),
         ),
@@ -213,12 +300,71 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
             gradient: _primaryGradient,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
-              BoxShadow(color: _primary.withOpacity(0.3), offset: const Offset(0, 4), blurRadius: 12),
+              BoxShadow(color: _primary.withValues(alpha: 0.3), offset: const Offset(0, 4), blurRadius: 12),
             ],
           ),
           child: const Center(
             child: Text('Register', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Row(
+      children: [
+        Expanded(child: Divider(color: _textLight.withValues(alpha: 0.3))),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'atau lanjutkan dengan',
+            style: TextStyle(color: _textLight, fontSize: 14),
+          ),
+        ),
+        Expanded(child: Divider(color: _textLight.withValues(alpha: 0.3))),
+      ],
+    );
+  }
+
+  Widget _buildSocialLogin() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildSocialButton(
+          child: const Text('G', style: TextStyle(color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold)),
+          onTap: () {},
+        ),
+        const SizedBox(width: 24),
+        _buildSocialButton(
+          icon: Icons.apple_rounded,
+          color: Colors.black,
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialButton({Widget? child, IconData? icon, Color? color, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 56,
+        height: 56,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          border: Border.all(color: _textLight.withValues(alpha: 0.2)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              offset: const Offset(0, 4),
+              blurRadius: 10,
+            ),
+          ],
+        ),
+        child: Center(
+          child: child ?? Icon(icon, color: color, size: 28),
         ),
       ),
     );

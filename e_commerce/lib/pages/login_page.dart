@@ -95,16 +95,93 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: _bgColor,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-          child: ScaleTransition(
-            scale: _bounceAnim,
-            child: _buildCard(),
+      body: Stack(
+        children: [
+          // Curved gradient header with decorative circles
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: size.height * 0.35,
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: _primaryGradient,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(40),
+                  bottomRight: Radius.circular(40),
+                ),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: -50,
+                    right: -50,
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.1),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 50,
+                    left: -30,
+                    child: Container(
+                      width: 140,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.1),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
+          
+          SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                child: Column(
+                  children: [
+                    // Icon inside a large white circle on the gradient
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 20,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.shopping_cart_rounded,
+                        size: 56,
+                        color: _primary,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    ScaleTransition(
+                      scale: _bounceAnim,
+                      child: _buildCard(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -118,7 +195,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             offset: const Offset(0, 10),
             blurRadius: 30,
           ),
@@ -131,8 +208,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.shopping_cart_rounded, size: 48, color: _primary),
-              const SizedBox(height: 16),
               // Title
               _buildTitle(),
               const SizedBox(height: 8),
@@ -144,7 +219,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               // Email field (staggered)
               _staggeredSlide(
                 delay: 0.0,
-                end: 0.5,
+                end: 0.4,
                 child: _buildField(
                   label: 'Email',
                   icon: Icons.email_rounded,
@@ -158,8 +233,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
               // Password field (staggered)
               _staggeredSlide(
-                delay: 0.2,
-                end: 0.7,
+                delay: 0.1,
+                end: 0.5,
                 child: _buildField(
                   label: 'Password',
                   icon: Icons.lock_rounded,
@@ -173,16 +248,32 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
               // Login button (staggered)
               _staggeredSlide(
-                delay: 0.4,
-                end: 0.9,
+                delay: 0.2,
+                end: 0.6,
                 child: _buildButton(),
+              ),
+              const SizedBox(height: 24),
+
+              // Divider
+              _staggeredSlide(
+                delay: 0.3,
+                end: 0.7,
+                child: _buildDivider(),
+              ),
+              const SizedBox(height: 24),
+
+              // Social Login
+              _staggeredSlide(
+                delay: 0.4,
+                end: 0.8,
+                child: _buildSocialLogin(),
               ),
               const SizedBox(height: 24),
 
               // Sign up link (staggered)
               _staggeredSlide(
-                delay: 0.55,
-                end: 1.0,
+                delay: 0.5,
+                end: 0.9,
                 child: _buildSignUpLink(),
               ),
             ],
@@ -305,7 +396,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: _primary.withOpacity(0.3),
+                color: _primary.withValues(alpha: 0.3),
                 offset: const Offset(0, 4),
                 blurRadius: 12,
               ),
@@ -321,6 +412,67 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  // ── Divider ────────────────────────────────────────────────────────
+  Widget _buildDivider() {
+    return Row(
+      children: [
+        Expanded(child: Divider(color: _textLight.withValues(alpha: 0.3))),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'atau lanjutkan dengan',
+            style: TextStyle(color: _textLight, fontSize: 14),
+          ),
+        ),
+        Expanded(child: Divider(color: _textLight.withValues(alpha: 0.3))),
+      ],
+    );
+  }
+
+  // ── Social Login ───────────────────────────────────────────────────
+  Widget _buildSocialLogin() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildSocialButton(
+          child: const Text('G', style: TextStyle(color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold)),
+          onTap: () {},
+        ),
+        const SizedBox(width: 24),
+        _buildSocialButton(
+          icon: Icons.apple_rounded,
+          color: Colors.black,
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialButton({Widget? child, IconData? icon, Color? color, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 56,
+        height: 56,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          border: Border.all(color: _textLight.withValues(alpha: 0.2)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              offset: const Offset(0, 4),
+              blurRadius: 10,
+            ),
+          ],
+        ),
+        child: Center(
+          child: child ?? Icon(icon, color: color, size: 28),
         ),
       ),
     );
