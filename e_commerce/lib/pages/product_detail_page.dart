@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../providers/cart_provider.dart';
 import '../providers/favorite_provider.dart';
+import '../providers/review_provider.dart';
 
 /// Professional Mobile UI styled product detail page.
 class ProductDetailPage extends StatelessWidget {
@@ -146,6 +147,83 @@ class ProductDetailPage extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 24),
+
+            // ── Reviews Section ──────────────────────────────────────
+            ListenableBuilder(
+              listenable: reviewProvider,
+              builder: (context, _) {
+                final reviews = reviewProvider.getReviewsForProduct(product.id);
+                final avgRating = reviewProvider.getAverageRating(product.id);
+                
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Ulasan Pembeli', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: _textDark)),
+                        if (reviews.isNotEmpty)
+                          Row(
+                            children: [
+                              const Icon(Icons.star_rounded, color: Color(0xFFFFB74D), size: 18),
+                              const SizedBox(width: 4),
+                              Text('${avgRating.toStringAsFixed(1)} (${reviews.length})', style: const TextStyle(fontWeight: FontWeight.w700, color: _textDark)),
+                            ],
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    if (reviews.isEmpty)
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Text('Belum ada ulasan.', style: TextStyle(color: _textLight.withOpacity(0.8))),
+                        ),
+                      )
+                    else
+                      ...reviews.take(3).map((review) => Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: _surface,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), offset: const Offset(0, 4), blurRadius: 12)],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(review.userName, style: const TextStyle(fontWeight: FontWeight.w600, color: _textDark)),
+                                Row(
+                                  children: List.generate(5, (index) => Icon(
+                                    index < review.rating ? Icons.star_rounded : Icons.star_border_rounded,
+                                    color: const Color(0xFFFFB74D),
+                                    size: 14,
+                                  )),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Text(review.comment, style: const TextStyle(fontSize: 13, color: _textLight, height: 1.4)),
+                          ],
+                        ),
+                      )),
+                    
+                    const SizedBox(height: 12),
+                    Center(
+                      child: TextButton.icon(
+                        onPressed: () => _showAddReviewSheet(context, product.id),
+                        icon: const Icon(Icons.edit_rounded, size: 18),
+                        label: const Text('Tulis Ulasan', style: TextStyle(fontWeight: FontWeight.w700)),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            ),
             const SizedBox(height: 32),
 
             // ── Add to Cart button ───────────────────────────────────
@@ -182,4 +260,91 @@ class ProductDetailPage extends StatelessWidget {
       ),
     );
   }
+
+  void _showAddReviewSheet(BuildContext context, String productId) {
+    int rating = 5;
+    final controller = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setState) => Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Tulis Ulasan', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: _textDark)),
+                const SizedBox(height: 24),
+                
+                const Text('Rating', style: TextStyle(fontWeight: FontWeight.w600, color: _textDark)),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(5, (index) => GestureDetector(
+                    onTap: () => setState(() => rating = index + 1),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Icon(
+                        index < rating ? Icons.star_rounded : Icons.star_border_rounded,
+                        color: const Color(0xFFFFB74D),
+                        size: 32,
+                      ),
+                    ),
+                  )),
+                ),
+                const SizedBox(height: 24),
+                
+                const Text('Komentar', style: TextStyle(fontWeight: FontWeight.w600, color: _textDark)),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: controller,
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    hintText: 'Tulis pendapatmu tentang produk ini...',
+                    hintStyle: const TextStyle(color: _textLight),
+                    filled: true,
+                    fillColor: _bgLight,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _primary,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: () {
+                      if (controller.text.trim().isEmpty) return;
+                      reviewProvider.addReview(
+                        productId: productId,
+                        userName: 'Jeki', // Hardcoded for demo
+                        rating: rating,
+                        comment: controller.text.trim(),
+                      );
+                      Navigator.pop(ctx);
+                    },
+                    child: const Text('Kirim Ulasan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
+

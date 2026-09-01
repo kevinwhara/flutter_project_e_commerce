@@ -1,137 +1,202 @@
 import 'package:flutter/material.dart';
 
+import '../models/order.dart';
+import '../providers/order_provider.dart';
+
 class OrderHistoryPage extends StatelessWidget {
   const OrderHistoryPage({super.key});
 
-  static const _borderColor = Color(0xFF1A1A2E);
-  static const _bgColor = Color(0xFFFFF59D);
-  static const _green = Color(0xFF4CAF50);
-  static const _teal = Color(0xFF4ECDC4);
-  static const _pink = Color(0xFFFF6B6B);
-  static const _orange = Color(0xFFFFB74D);
+  static const _textDark = Color(0xFF2D3142);
+  static const _textLight = Color(0xFF9094A6);
+  static const _bgLight = Color(0xFFF8F9FA);
+  static const _primary = Color(0xFF4C53A5);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bgColor,
+      backgroundColor: _bgLight,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        foregroundColor: _textDark,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: _borderColor),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text('Riwayat Pesanan', style: TextStyle(fontWeight: FontWeight.w900, color: _borderColor)),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(3.5),
-          child: Container(color: _borderColor, height: 3.5),
-        ),
+        centerTitle: true,
+        title: const Text('Riwayat Pesanan', style: TextStyle(fontWeight: FontWeight.w800)),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          _buildOrderCard(
-            id: 'ORD-29931',
-            date: '12 Agustus 2026',
-            status: 'Dikirim',
-            statusColor: _green,
-            icon: Icons.local_shipping_rounded,
-            total: '\$148.50',
-            itemCount: 3,
-          ),
-          const SizedBox(height: 16),
-          _buildOrderCard(
-            id: 'ORD-29910',
-            date: '5 Agustus 2026',
-            status: 'Selesai',
-            statusColor: _teal,
-            icon: Icons.check_circle_rounded,
-            total: '\$24.00',
-            itemCount: 1,
-          ),
-          const SizedBox(height: 16),
-          _buildOrderCard(
-            id: 'ORD-29850',
-            date: '20 Juli 2026',
-            status: 'Dibatalkan',
-            statusColor: _pink,
-            icon: Icons.cancel_rounded,
-            total: '\$12.99',
-            itemCount: 2,
-          ),
-        ],
+      body: ListenableBuilder(
+        listenable: orderProvider,
+        builder: (context, _) {
+          final orders = orderProvider.orders;
+
+          if (orders.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.receipt_long_rounded, size: 80, color: _textLight.withOpacity(0.3)),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Belum ada pesanan',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: _textLight),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Pesanan yang sudah kamu checkout\nakan muncul di sini.',
+                    style: TextStyle(fontSize: 14, color: _textLight.withOpacity(0.7)),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            );
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(20),
+            itemCount: orders.length,
+            itemBuilder: (context, index) {
+              final order = orders[index];
+              return _buildOrderCard(context, order);
+            },
+          );
+        },
       ),
     );
   }
 
-  Widget _buildOrderCard({
-    required String id,
-    required String date,
-    required String status,
-    required Color statusColor,
-    required IconData icon,
-    required String total,
-    required int itemCount,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: _borderColor, width: 3),
-        boxShadow: const [BoxShadow(color: _borderColor, offset: Offset(5, 5), blurRadius: 0)],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(id, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: _borderColor)),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: statusColor.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: _borderColor, width: 2),
+  Widget _buildOrderCard(BuildContext context, Order order) {
+    final statusColor = _getStatusColor(order.status);
+    final itemCount = order.items.fold<int>(0, (s, i) => s + i.quantity);
+
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, '/order-detail', arguments: order.id),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.03), offset: const Offset(0, 4), blurRadius: 12),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header: Order ID + Status Badge
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(order.id, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16, color: _textDark)),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: statusColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    order.statusLabel,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: statusColor),
+                  ),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(icon, size: 14, color: _borderColor),
-                    const SizedBox(width: 4),
-                    Text(status, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: _borderColor)),
-                  ],
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Date + Item count
+            Row(
+              children: [
+                Icon(Icons.calendar_today_rounded, size: 14, color: _textLight),
+                const SizedBox(width: 6),
+                Text(
+                  _formatDate(order.orderDate),
+                  style: const TextStyle(fontSize: 13, color: _textLight),
+                ),
+                const SizedBox(width: 16),
+                Icon(Icons.shopping_bag_outlined, size: 14, color: _textLight),
+                const SizedBox(width: 6),
+                Text(
+                  '$itemCount barang',
+                  style: const TextStyle(fontSize: 13, color: _textLight),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Item previews (show first 2 items)
+            ...order.items.take(2).map((item) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.asset(
+                      item.imageUrl,
+                      width: 40, height: 40,
+                      fit: BoxFit.cover,
+                      errorBuilder: (c, e, s) => Container(
+                        width: 40, height: 40,
+                        color: _bgLight,
+                        child: const Icon(Icons.image, size: 16),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      item.name,
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Text(
+                    '${item.quantity}x',
+                    style: const TextStyle(fontSize: 12, color: _textLight),
+                  ),
+                ],
+              ),
+            )),
+
+            if (order.items.length > 2)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  '+${order.items.length - 2} produk lainnya',
+                  style: TextStyle(fontSize: 12, color: _primary.withOpacity(0.7), fontWeight: FontWeight.w600),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(date, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey)),
-          const Divider(color: _borderColor, thickness: 2, height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('$itemCount Barang', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: _borderColor)),
-              Text(total, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: _borderColor)),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            decoration: BoxDecoration(
-              color: _orange,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: _borderColor, width: 2.5),
-              boxShadow: const [BoxShadow(color: _borderColor, offset: Offset(3, 3), blurRadius: 0)],
+
+            const Divider(height: 24),
+
+            // Total
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Total Pembayaran', style: TextStyle(fontSize: 13, color: _textLight)),
+                Text(
+                  '\$${order.grandTotal.toStringAsFixed(2)}',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: _primary),
+                ),
+              ],
             ),
-            child: const Center(
-              child: Text('Lacak Pesanan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 14)),
-            ),
-          )
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  Color _getStatusColor(OrderStatus status) {
+    switch (status) {
+      case OrderStatus.diproses:
+        return const Color(0xFFFFB74D);
+      case OrderStatus.dikirim:
+        return const Color(0xFF4ECDC4);
+      case OrderStatus.selesai:
+        return const Color(0xFF4CAF50);
+    }
+  }
+
+  String _formatDate(DateTime date) {
+    final months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    return '${date.day} ${months[date.month - 1]} ${date.year}, ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
   }
 }

@@ -11,9 +11,11 @@ import 'pages/home_page.dart';
 import 'pages/list_chat.dart';
 import 'pages/login_page.dart';
 import 'pages/onboarding_page.dart';
+import 'pages/order_detail_page.dart';
 import 'pages/order_history_page.dart';
 import 'pages/product_detail_page.dart';
 import 'pages/register_page.dart';
+import 'pages/notification_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -74,6 +76,8 @@ class MyApp extends StatelessWidget {
         '/help-center': (context) => const HelpCenterPage(),
         '/favorite': (context) => const FavoritePage(),
         '/checkout': (context) => const CheckoutPage(),
+        '/order-detail': (context) => const OrderDetailPage(),
+        '/notification': (context) => const NotificationPage(),
       },
     );
   }

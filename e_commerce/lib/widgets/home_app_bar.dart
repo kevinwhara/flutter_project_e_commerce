@@ -1,6 +1,8 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 
+import '../providers/notification_provider.dart';
+
 /// Professional Mobile UI styled app bar for the home page.
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({super.key});
@@ -150,6 +152,42 @@ class _HomeAppBarState extends State<HomeAppBar>
                 ),
               ),
             ),
+          ),
+          const SizedBox(width: 12),
+
+          // ── Notification Icon ───────────────────────────────────────
+          ListenableBuilder(
+            listenable: notificationProvider,
+            builder: (context, _) {
+              final count = notificationProvider.unreadCount;
+              return badges.Badge(
+                showBadge: count > 0,
+                badgeStyle: const badges.BadgeStyle(
+                  badgeColor: _accentOrange,
+                  padding: EdgeInsets.all(6),
+                  elevation: 0,
+                ),
+                badgeContent: Text(
+                  count > 9 ? '9+' : '$count',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 11,
+                  ),
+                ),
+                child: GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, '/notification'),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: _accentOrange.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.notifications_none_rounded, size: 22, color: _accentOrange),
+                  ),
+                ),
+              );
+            }
           ),
         ],
       ),

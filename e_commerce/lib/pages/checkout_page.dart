@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../models/notification_item.dart';
 import '../providers/cart_provider.dart';
+import '../providers/notification_provider.dart';
+import '../providers/order_provider.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -27,6 +30,25 @@ class _CheckoutPageState extends State<CheckoutPage> {
     Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return;
       
+      final subtotal = cartProvider.totalPrice;
+      final deliveryFee = subtotal > 0 ? 15.0 : 0.0;
+      
+      // Save Order
+      final order = orderProvider.addOrder(
+        items: cartProvider.items,
+        totalPrice: subtotal,
+        deliveryFee: deliveryFee,
+        paymentMethod: _selectedPayment,
+        address: 'Jl. Mawar Indah No. 123, Komplek Asri, Jakarta Selatan 12345',
+      );
+
+      // Add Notification
+      notificationProvider.addNotification(
+        title: 'Pesanan Berhasil! 🎉',
+        message: 'Pesanan ${order.id} berhasil dibuat dan sedang diproses.',
+        type: NotificationType.order,
+      );
+
       // Clear cart
       cartProvider.clearCart();
       

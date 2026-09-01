@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../providers/order_provider.dart';
+import '../providers/review_provider.dart';
+
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
 
@@ -90,14 +93,22 @@ class _AccountPageState extends State<AccountPage> {
             const SizedBox(height: 32),
 
             // ── Stats Row ─────────────────────────────────────────
-            Row(
-              children: [
-                Expanded(child: _buildStatCard('Orders', Icons.inventory_2_rounded, '12', const LinearGradient(colors: [Color(0xFF4EE3CD), Color(0xFF35A796)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
-                const SizedBox(width: 12),
-                Expanded(child: _buildStatCard('Coupons', Icons.local_offer_rounded, '5', const LinearGradient(colors: [Color(0xFFFFC770), Color(0xFFFF9800)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
-                const SizedBox(width: 12),
-                Expanded(child: _buildStatCard('Reviews', Icons.star_rounded, '8', const LinearGradient(colors: [Color(0xFFC46FE0), Color(0xFF8E24AA)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
-              ],
+            ListenableBuilder(
+              listenable: orderProvider,
+              builder: (context, _) => ListenableBuilder(
+                listenable: reviewProvider,
+                builder: (context, _) {
+                  return Row(
+                    children: [
+                      Expanded(child: _buildStatCard('Orders', Icons.inventory_2_rounded, '${orderProvider.orders.length}', const LinearGradient(colors: [Color(0xFF4EE3CD), Color(0xFF35A796)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
+                      const SizedBox(width: 12),
+                      Expanded(child: _buildStatCard('Coupons', Icons.local_offer_rounded, '5', const LinearGradient(colors: [Color(0xFFFFC770), Color(0xFFFF9800)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
+                      const SizedBox(width: 12),
+                      Expanded(child: _buildStatCard('Reviews', Icons.star_rounded, '${reviewProvider.allReviews.where((r) => r.userName == 'Jeki').length}', const LinearGradient(colors: [Color(0xFFC46FE0), Color(0xFF8E24AA)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
+                    ],
+                  );
+                }
+              ),
             ),
             const SizedBox(height: 32),
 
@@ -105,7 +116,7 @@ class _AccountPageState extends State<AccountPage> {
             _buildMenuTile(Icons.favorite_rounded, 'Favorit Saya', _accentPink, context, route: '/favorite'),
             _buildMenuTile(Icons.shopping_bag_outlined, 'Riwayat Pesanan', const Color(0xFF4ECDC4), context, route: '/order-history'),
             _buildMenuTile(Icons.location_on_outlined, 'Alamat Pengiriman', const Color(0xFFFFB74D), context, route: '/address'),
-            _buildMenuTile(Icons.notifications_none_rounded, 'Notifikasi', _accentPink, context),
+            _buildMenuTile(Icons.notifications_none_rounded, 'Notifikasi', _accentPink, context, route: '/notification'),
             _buildMenuTile(Icons.payment_rounded, 'Metode Pembayaran', const Color(0xFF4CAF50), context),
             _buildMenuTile(Icons.help_outline_rounded, 'Pusat Bantuan', const Color(0xFFD1C4E9), context, route: '/help-center'),
             const SizedBox(height: 24),

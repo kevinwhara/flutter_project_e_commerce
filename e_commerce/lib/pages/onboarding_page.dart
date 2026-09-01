@@ -7,51 +7,73 @@ class OnboardingPage extends StatefulWidget {
   State<OnboardingPage> createState() => _OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
+class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStateMixin {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
-  static const _borderColor = Color(0xFF1A1A2E);
-  static const _yellow = Color(0xFFFFF59D);
-  static const _pink = Color(0xFFFF6B6B);
-  static const _teal = Color(0xFF4ECDC4);
-  static const _orange = Color(0xFFFFB74D);
+  static const _textDark = Color(0xFF2D3142);
+  static const _textLight = Color(0xFF9094A6);
+  static const _bgLight = Color(0xFFF8F9FA);
+  static const _primary = Color(0xFF4C53A5);
+  static const _accentPink = Color(0xFFFF6B6B);
+  static const _accentTeal = Color(0xFF4ECDC4);
+  static const _accentOrange = Color(0xFFFFB74D);
+
+  late AnimationController _floatController;
+  late Animation<double> _floatAnimation;
 
   final List<Map<String, dynamic>> _pages = [
     {
-      'color': _yellow,
-      'icon': Icons.shopping_bag_outlined,
-      'iconBg': _pink,
-      'title': 'Belanja Gaya\nNeo Brutalism!',
-      'desc': 'Temukan pengalaman belanja unik dengan desain yang anti-mainstream dan berani tampil beda.',
+      'title': 'Jelajahi Ribuan\nProduk Pilihan',
+      'desc': 'Temukan berbagai macam produk berkualitas dengan harga terbaik, hanya dalam satu genggaman.',
+      'icon': Icons.storefront_rounded,
+      'color': _primary,
+      'gradient': const [Color(0xFF6B73FF), Color(0xFF4C53A5)],
+      'floating_icons': [Icons.fastfood_rounded, Icons.checkroom_rounded, Icons.laptop_chromebook_rounded]
     },
     {
-      'color': _pink,
-      'icon': Icons.local_fire_department_rounded,
-      'iconBg': _orange,
-      'title': 'Diskon Gede\nTiap Hari 🔥',
-      'desc': 'Dapatkan promo eksklusif dan voucher belanja tanpa henti. Jangan sampai ketinggalan!',
+      'title': 'Banyak Promo &\nDiskon Menarik',
+      'desc': 'Dapatkan gratis ongkir, cashback, hingga flash sale setiap hari khusus untuk pengguna baru!',
+      'icon': Icons.local_offer_rounded,
+      'color': _accentPink,
+      'gradient': const [Color(0xFFFF8E53), Color(0xFFFF6B6B)],
+      'floating_icons': [Icons.percent_rounded, Icons.card_giftcard_rounded, Icons.loyalty_rounded]
     },
     {
-      'color': _teal,
-      'icon': Icons.rocket_launch_rounded,
-      'iconBg': _yellow,
-      'title': 'Siap Mulai\nPetualangan?',
-      'desc': 'Daftar sekarang dan nikmati gratis ongkir untuk pembelian pertamamu.',
+      'title': 'Pengiriman Cepat\n& Transaksi Aman',
+      'desc': 'Didukung oleh berbagai metode pembayaran dan kurir terpercaya. Belanja jadi lebih tenang.',
+      'icon': Icons.verified_user_rounded,
+      'color': _accentTeal,
+      'gradient': const [Color(0xFF4ECDC4), Color(0xFF20B2AA)],
+      'floating_icons': [Icons.local_shipping_rounded, Icons.shield_rounded, Icons.account_balance_wallet_rounded]
     },
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _floatController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+
+    _floatAnimation = Tween<double>(begin: -10, end: 10).animate(
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
   void dispose() {
     _pageController.dispose();
+    _floatController.dispose();
     super.dispose();
   }
 
   void _nextPage() {
     if (_currentIndex < _pages.length - 1) {
       _pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeOutCubic,
       );
     } else {
       Navigator.pushReplacementNamed(context, '/login');
@@ -61,55 +83,139 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: _bgLight,
       body: Stack(
         children: [
+          // Background decorations (subtle circles)
+          Positioned(
+            top: -100,
+            right: -100,
+            child: AnimatedBuilder(
+              animation: _pageController,
+              builder: (context, child) {
+                double offset = 0;
+                if (_pageController.hasClients) {
+                  offset = _pageController.page ?? 0;
+                }
+                final color = _pages[offset.round()]['color'] as Color;
+                return Container(
+                  width: 300,
+                  height: 300,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: color.withOpacity(0.05),
+                  ),
+                );
+              }
+            ),
+          ),
+          
           PageView.builder(
             controller: _pageController,
             onPageChanged: (index) => setState(() => _currentIndex = index),
             itemCount: _pages.length,
             itemBuilder: (context, index) {
               final page = _pages[index];
-              return Container(
-                color: page['color'],
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+              return Padding(
+                padding: const EdgeInsets.all(32.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Floating Icon Shape
-                    Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: page['iconBg'],
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: _borderColor, width: 4),
-                        boxShadow: const [
-                          BoxShadow(color: _borderColor, offset: Offset(8, 8), blurRadius: 0),
+                    // Main Visual Component
+                    SizedBox(
+                      height: 350,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // Central Icon Container
+                          AnimatedBuilder(
+                            animation: _floatAnimation,
+                            builder: (context, child) {
+                              return Transform.translate(
+                                offset: Offset(0, _floatAnimation.value),
+                                child: Container(
+                                  width: 200,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                      colors: page['gradient'],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: page['color'].withOpacity(0.3),
+                                        offset: const Offset(0, 20),
+                                        blurRadius: 30,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Icon(
+                                    page['icon'],
+                                    size: 80,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              );
+                            }
+                          ),
+                          
+                          // Orbiting small icons
+                          ...List.generate((page['floating_icons'] as List).length, (i) {
+                            final icons = page['floating_icons'] as List<IconData>;
+                            final angle = (i * (3.14159 * 2 / icons.length));
+                            return AnimatedBuilder(
+                              animation: _floatController,
+                              builder: (context, child) {
+                                final radius = 130.0;
+                                final yOffset = _floatController.value * 15 * (i % 2 == 0 ? 1 : -1);
+                                return Transform.translate(
+                                  offset: Offset(
+                                    radius * 0.8 * (i == 0 ? 0 : i == 1 ? -1 : 1), 
+                                    (radius * 0.8 * (i == 0 ? -1 : 0.5)) + yOffset
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4)),
+                                      ],
+                                    ),
+                                    child: Icon(icons[i], size: 24, color: page['color']),
+                                  ),
+                                );
+                              }
+                            );
+                          }),
                         ],
                       ),
-                      child: Icon(page['icon'], size: 64, color: _borderColor),
                     ),
-                    const SizedBox(height: 48),
-                    // Title
+                    const SizedBox(height: 40),
+                    
+                    // Texts
                     Text(
                       page['title'],
                       style: const TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w900,
-                        color: _borderColor,
-                        height: 1.1,
+                        fontSize: 28,
+                        fontWeight: FontWeight.w800,
+                        color: _textDark,
+                        height: 1.3,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),
-                    // Description
                     Text(
                       page['desc'],
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: _borderColor,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: _textDark.withOpacity(0.6),
+                        height: 1.5,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -117,62 +223,92 @@ class _OnboardingPageState extends State<OnboardingPage> {
             },
           ),
           
-          // Navigation Row
+          // Bottom Controls
           Positioned(
             bottom: 40,
-            left: 24,
-            right: 24,
+            left: 32,
+            right: 32,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Indicators
                 Row(
-                  children: List.generate(_pages.length, (index) {
-                    final isSelected = _currentIndex == index;
-                    return AnimatedContainer(
+                  children: List.generate(
+                    _pages.length,
+                    (index) => AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       margin: const EdgeInsets.only(right: 8),
-                      height: 12,
-                      width: isSelected ? 32 : 12,
+                      height: 8,
+                      width: _currentIndex == index ? 24 : 8,
                       decoration: BoxDecoration(
-                        color: isSelected ? _borderColor : Colors.white,
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: _borderColor, width: 2),
+                        color: _currentIndex == index ? _primary : _textLight.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                    );
-                  }),
+                    ),
+                  ),
                 ),
                 
-                // Next Button
+                // Next/Start Button
                 GestureDetector(
                   onTap: _nextPage,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: _currentIndex == _pages.length - 1 ? 24 : 20,
+                      vertical: 16,
+                    ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: _borderColor, width: 3),
-                      boxShadow: const [
-                        BoxShadow(color: _borderColor, offset: Offset(4, 4), blurRadius: 0),
+                      color: _primary,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: _primary.withOpacity(0.3),
+                          offset: const Offset(0, 8),
+                          blurRadius: 16,
+                        ),
                       ],
                     ),
                     child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          _currentIndex == _pages.length - 1 ? 'Mulai' : 'Lanjut',
+                          _currentIndex == _pages.length - 1 ? 'Mulai Sekarang' : 'Lanjut',
                           style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                            color: _borderColor,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        const Icon(Icons.arrow_forward_rounded, color: _borderColor),
+                        if (_currentIndex < _pages.length - 1) ...[
+                          const SizedBox(width: 8),
+                          const Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 20),
+                        ]
                       ],
                     ),
                   ),
                 ),
               ],
+            ),
+          ),
+
+          // Skip Button
+          Positioned(
+            top: 50,
+            right: 24,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 300),
+              opacity: _currentIndex == _pages.length - 1 ? 0.0 : 1.0,
+              child: TextButton(
+                onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
+                child: const Text(
+                  'Lewati',
+                  style: TextStyle(
+                    color: _textLight,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             ),
           ),
         ],
