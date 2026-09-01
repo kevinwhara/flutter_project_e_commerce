@@ -186,10 +186,10 @@ class _CartPageState extends State<CartPage> {
                 CartBottomNavBar(
                   totalPrice: cartProvider.totalPrice,
                   onCheckout: _checkout,
-                )
-              else
-                // Pad bottom for floating nav
-                const SizedBox(height: 100),
+                ),
+                
+              // Pad bottom for floating nav in all cases
+              const SizedBox(height: 90),
             ],
           );
         },
