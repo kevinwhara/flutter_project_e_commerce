@@ -32,7 +32,7 @@ class OrderHistoryPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.receipt_long_rounded, size: 80, color: _textLight.withOpacity(0.3)),
+                  Icon(Icons.receipt_long_rounded, size: 80, color: _textLight.withValues(alpha: 0.3)),
                   const SizedBox(height: 16),
                   const Text(
                     'Belum ada pesanan',
@@ -41,7 +41,7 @@ class OrderHistoryPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     'Pesanan yang sudah kamu checkout\nakan muncul di sini.',
-                    style: TextStyle(fontSize: 14, color: _textLight.withOpacity(0.7)),
+                    style: TextStyle(fontSize: 14, color: _textLight.withValues(alpha: 0.7)),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -75,7 +75,7 @@ class OrderHistoryPage extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.03), offset: const Offset(0, 4), blurRadius: 12),
+            BoxShadow(color: Colors.black.withValues(alpha: 0.03), offset: const Offset(0, 4), blurRadius: 12),
           ],
         ),
         child: Column(
@@ -89,7 +89,7 @@ class OrderHistoryPage extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.1),
+                    color: statusColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -161,7 +161,7 @@ class OrderHistoryPage extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(
                   '+${order.items.length - 2} produk lainnya',
-                  style: TextStyle(fontSize: 12, color: _primary.withOpacity(0.7), fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 12, color: _primary.withValues(alpha: 0.7), fontWeight: FontWeight.w600),
                 ),
               ),
 

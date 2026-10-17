@@ -73,7 +73,7 @@ class ProductDetailPage extends StatelessWidget {
                   color: _surface,
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
-                    BoxShadow(color: Colors.black.withOpacity(0.04), offset: const Offset(0, 8), blurRadius: 24),
+                    BoxShadow(color: Colors.black.withValues(alpha: 0.04), offset: const Offset(0, 8), blurRadius: 24),
                   ],
                 ),
                 child: Image.asset(
@@ -108,7 +108,7 @@ class ProductDetailPage extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: _accentPink.withOpacity(0.1),
+                      color: _accentPink.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -129,7 +129,7 @@ class ProductDetailPage extends StatelessWidget {
                 color: _surface,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(0.02), offset: const Offset(0, 4), blurRadius: 12),
+                  BoxShadow(color: Colors.black.withValues(alpha: 0.02), offset: const Offset(0, 4), blurRadius: 12),
                 ],
               ),
               child: Column(
@@ -178,7 +178,7 @@ class ProductDetailPage extends StatelessWidget {
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Text('Belum ada ulasan.', style: TextStyle(color: _textLight.withOpacity(0.8))),
+                          child: Text('Belum ada ulasan.', style: TextStyle(color: _textLight.withValues(alpha: 0.8))),
                         ),
                       )
                     else
@@ -188,7 +188,7 @@ class ProductDetailPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: _surface,
                           borderRadius: BorderRadius.circular(16),
-                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), offset: const Offset(0, 4), blurRadius: 12)],
+                          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), offset: const Offset(0, 4), blurRadius: 12)],
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,7 +241,7 @@ class ProductDetailPage extends StatelessWidget {
                   gradient: const LinearGradient(colors: [Color(0xFF6B73FF), Color(0xFF4C53A5)], begin: Alignment.topLeft, end: Alignment.bottomRight),
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
-                    BoxShadow(color: _primary.withOpacity(0.3), offset: const Offset(0, 4), blurRadius: 16),
+                    BoxShadow(color: _primary.withValues(alpha: 0.3), offset: const Offset(0, 4), blurRadius: 16),
                   ],
                 ),
                 child: const Row(

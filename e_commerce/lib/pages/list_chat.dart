@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../models/chat_preview.dart';
 import '../data/dummy_data.dart'; // added import
 
 /// Modern Messenger UI for chat list.

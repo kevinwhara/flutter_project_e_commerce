@@ -59,7 +59,7 @@ class _PromoBannerWidgetState extends State<PromoBannerWidget> {
               height: 8,
               width: _currentIndex == index ? 24 : 8,
               decoration: BoxDecoration(
-                color: _currentIndex == index ? const Color(0xFF4C53A5) : Colors.grey.withOpacity(0.3),
+                color: _currentIndex == index ? const Color(0xFF4C53A5) : Colors.grey.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -81,7 +81,7 @@ class _PromoBannerWidgetState extends State<PromoBannerWidget> {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: gradient[0].withOpacity(0.3),
+            color: gradient[0].withValues(alpha: 0.3),
             offset: const Offset(0, 8),
             blurRadius: 16,
           ),
@@ -95,7 +95,7 @@ class _PromoBannerWidgetState extends State<PromoBannerWidget> {
             child: Icon(
               icon,
               size: 140,
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
             ),
           ),
           Padding(
@@ -107,7 +107,7 @@ class _PromoBannerWidgetState extends State<PromoBannerWidget> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text(
@@ -133,7 +133,7 @@ class _PromoBannerWidgetState extends State<PromoBannerWidget> {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),

@@ -44,7 +44,7 @@ class NotificationPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.notifications_none_rounded, size: 80, color: _textLight.withOpacity(0.3)),
+                  Icon(Icons.notifications_none_rounded, size: 80, color: _textLight.withValues(alpha: 0.3)),
                   const SizedBox(height: 16),
                   const Text(
                     'Belum ada notifikasi',
@@ -110,11 +110,11 @@ class NotificationPage extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: item.isRead ? Colors.white : _primary.withOpacity(0.04),
+          color: item.isRead ? Colors.white : _primary.withValues(alpha: 0.04),
           borderRadius: BorderRadius.circular(16),
-          border: item.isRead ? null : Border.all(color: _primary.withOpacity(0.1), width: 1),
+          border: item.isRead ? null : Border.all(color: _primary.withValues(alpha: 0.1), width: 1),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.02), offset: const Offset(0, 4), blurRadius: 12),
+            BoxShadow(color: Colors.black.withValues(alpha: 0.02), offset: const Offset(0, 4), blurRadius: 12),
           ],
         ),
         child: Row(
@@ -124,7 +124,7 @@ class NotificationPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: iconColor.withOpacity(0.12),
+                color: iconColor.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(iconData, color: iconColor, size: 22),
@@ -159,7 +159,7 @@ class NotificationPage extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     item.message,
-                    style: TextStyle(fontSize: 13, color: _textDark.withOpacity(0.6), height: 1.4),
+                    style: TextStyle(fontSize: 13, color: _textDark.withValues(alpha: 0.6), height: 1.4),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

@@ -46,7 +46,7 @@ class _AccountPageState extends State<AccountPage> {
                 color: _surface,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(0.04), offset: const Offset(0, 4), blurRadius: 16),
+                  BoxShadow(color: Colors.black.withValues(alpha: 0.04), offset: const Offset(0, 4), blurRadius: 16),
                 ],
               ),
               child: Row(
@@ -81,7 +81,7 @@ class _AccountPageState extends State<AccountPage> {
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: _primary.withOpacity(0.1),
+                        color: _primary.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(Icons.edit_rounded, color: _primary, size: 20),
@@ -132,7 +132,7 @@ class _AccountPageState extends State<AccountPage> {
                 decoration: BoxDecoration(
                   color: _surface,
                   borderRadius: BorderRadius.circular(16),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), offset: const Offset(0, 4), blurRadius: 16)],
+                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), offset: const Offset(0, 4), blurRadius: 16)],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +159,7 @@ class _AccountPageState extends State<AccountPage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: gradient.colors.first.withOpacity(0.3),
+            color: gradient.colors.first.withValues(alpha: 0.3),
             offset: const Offset(0, 4),
             blurRadius: 12,
           )
@@ -183,14 +183,14 @@ class _AccountPageState extends State<AccountPage> {
       decoration: BoxDecoration(
         color: _surface,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), offset: const Offset(0, 4), blurRadius: 12)],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), offset: const Offset(0, 4), blurRadius: 12)],
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.15),
+            color: color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, color: color, size: 22),

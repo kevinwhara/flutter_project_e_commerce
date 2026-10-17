@@ -47,7 +47,7 @@ class _HomeAppBarState extends State<HomeAppBar>
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             offset: const Offset(0, 4),
             blurRadius: 12,
           ),
@@ -87,7 +87,7 @@ class _HomeAppBarState extends State<HomeAppBar>
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
-                    color: _accentOrange.withOpacity(0.15),
+                    color: _accentOrange.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: const Text(
@@ -109,7 +109,7 @@ class _HomeAppBarState extends State<HomeAppBar>
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: _accentPink.withOpacity(0.1),
+                color: _accentPink.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(Icons.favorite_border_rounded, size: 22, color: _accentPink),
@@ -143,7 +143,7 @@ class _HomeAppBarState extends State<HomeAppBar>
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _primary.withOpacity(0.1),
+                  color: _primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: InkWell(
@@ -180,7 +180,7 @@ class _HomeAppBarState extends State<HomeAppBar>
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: _accentOrange.withOpacity(0.1),
+                      color: _accentOrange.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Icon(Icons.notifications_none_rounded, size: 22, color: _accentOrange),

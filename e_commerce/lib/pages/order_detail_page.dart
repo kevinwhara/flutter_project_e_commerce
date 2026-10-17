@@ -55,7 +55,7 @@ class OrderDetailPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), offset: const Offset(0, 4), blurRadius: 12)],
+                    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), offset: const Offset(0, 4), blurRadius: 12)],
                   ),
                   child: Column(
                     children: order.items.map((item) => Padding(
@@ -98,7 +98,7 @@ class OrderDetailPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), offset: const Offset(0, 4), blurRadius: 12)],
+                    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), offset: const Offset(0, 4), blurRadius: 12)],
                   ),
                   child: Column(
                     children: [
@@ -131,21 +131,21 @@ class OrderDetailPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), offset: const Offset(0, 4), blurRadius: 12)],
+                    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), offset: const Offset(0, 4), blurRadius: 12)],
                   ),
                   child: Row(
                     children: [
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFB74D).withOpacity(0.15),
+                          color: const Color(0xFFFFB74D).withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Icon(Icons.location_on_rounded, color: Color(0xFFFFB74D), size: 24),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: Text(order.address, style: TextStyle(color: _textDark.withOpacity(0.7), height: 1.4)),
+                        child: Text(order.address, style: TextStyle(color: _textDark.withValues(alpha: 0.7), height: 1.4)),
                       ),
                     ],
                   ),
@@ -207,7 +207,7 @@ class OrderDetailPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), offset: const Offset(0, 4), blurRadius: 12)],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), offset: const Offset(0, 4), blurRadius: 12)],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -276,7 +276,7 @@ class OrderDetailPage extends StatelessWidget {
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: color.withOpacity(0.3), offset: const Offset(0, 8), blurRadius: 16)],
+          boxShadow: [BoxShadow(color: color.withValues(alpha: 0.3), offset: const Offset(0, 8), blurRadius: 16)],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

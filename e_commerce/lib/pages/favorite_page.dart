@@ -32,11 +32,11 @@ class FavoritePage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.favorite_border_rounded, size: 64, color: _textDark.withOpacity(0.2)),
+                  Icon(Icons.favorite_border_rounded, size: 64, color: _textDark.withValues(alpha: 0.2)),
                   const SizedBox(height: 16),
                   const Text('Belum ada produk favorit', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: _textDark)),
                   const SizedBox(height: 8),
-                  Text('Yuk cari barang impianmu!', style: TextStyle(fontSize: 14, color: _textDark.withOpacity(0.5))),
+                  Text('Yuk cari barang impianmu!', style: TextStyle(fontSize: 14, color: _textDark.withValues(alpha: 0.5))),
                 ],
               ),
             );

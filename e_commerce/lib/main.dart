@@ -38,19 +38,27 @@ class MyApp extends StatelessWidget {
           seedColor: _primaryColor,
           primary: _primaryColor,
           surface: Colors.white,
-          background: _bgColor,
         ),
         scaffoldBackgroundColor: _bgColor,
         useMaterial3: true,
         // Professional Mobile UI global text theme
         textTheme: const TextTheme(
-          bodyMedium: TextStyle(fontWeight: FontWeight.w500, color: Color(0xFF2D3142)),
-          bodyLarge: TextStyle(fontWeight: FontWeight.w500, color: Color(0xFF2D3142)),
+          bodyMedium: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF2D3142),
+          ),
+          bodyLarge: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF2D3142),
+          ),
         ),
         // Snackbar styling
         snackBarTheme: SnackBarThemeData(
           backgroundColor: _borderColor,
-          contentTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+          contentTextStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
             side: const BorderSide(color: _borderColor, width: 2),
@@ -68,7 +76,8 @@ class MyApp extends StatelessWidget {
         '/product-detail': (context) => const ProductDetailPage(),
         '/chat-list': (context) => const ChatListPage(),
         '/chat-detail': (context) {
-          final contact = ModalRoute.of(context)!.settings.arguments as ChatPreview;
+          final contact =
+              ModalRoute.of(context)!.settings.arguments as ChatPreview;
           return ChatScreen(contact: contact);
         },
         '/order-history': (context) => const OrderHistoryPage(),

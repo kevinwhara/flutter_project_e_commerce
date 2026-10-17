@@ -7,7 +7,8 @@ class OnboardingPage extends StatefulWidget {
   State<OnboardingPage> createState() => _OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStateMixin {
+class _OnboardingPageState extends State<OnboardingPage>
+    with TickerProviderStateMixin {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
@@ -17,7 +18,6 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
   static const _primary = Color(0xFF4C53A5);
   static const _accentPink = Color(0xFFFF6B6B);
   static const _accentTeal = Color(0xFF4ECDC4);
-  static const _accentOrange = Color(0xFFFFB74D);
 
   late AnimationController _floatController;
   late Animation<double> _floatAnimation;
@@ -25,27 +25,42 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
   final List<Map<String, dynamic>> _pages = [
     {
       'title': 'Jelajahi Ribuan\nProduk Pilihan',
-      'desc': 'Temukan berbagai macam produk berkualitas dengan harga terbaik, hanya dalam satu genggaman.',
+      'desc':
+          'Temukan berbagai macam produk berkualitas dengan harga terbaik, hanya dalam satu genggaman.',
       'icon': Icons.storefront_rounded,
       'color': _primary,
       'gradient': const [Color(0xFF6B73FF), Color(0xFF4C53A5)],
-      'floating_icons': [Icons.fastfood_rounded, Icons.checkroom_rounded, Icons.laptop_chromebook_rounded]
+      'floating_icons': [
+        Icons.fastfood_rounded,
+        Icons.checkroom_rounded,
+        Icons.laptop_chromebook_rounded,
+      ],
     },
     {
       'title': 'Banyak Promo &\nDiskon Menarik',
-      'desc': 'Dapatkan gratis ongkir, cashback, hingga flash sale setiap hari khusus untuk pengguna baru!',
+      'desc':
+          'Dapatkan gratis ongkir, cashback, hingga flash sale setiap hari khusus untuk pengguna baru!',
       'icon': Icons.local_offer_rounded,
       'color': _accentPink,
       'gradient': const [Color(0xFFFF8E53), Color(0xFFFF6B6B)],
-      'floating_icons': [Icons.percent_rounded, Icons.card_giftcard_rounded, Icons.loyalty_rounded]
+      'floating_icons': [
+        Icons.percent_rounded,
+        Icons.card_giftcard_rounded,
+        Icons.loyalty_rounded,
+      ],
     },
     {
       'title': 'Pengiriman Cepat\n& Transaksi Aman',
-      'desc': 'Didukung oleh berbagai metode pembayaran dan kurir terpercaya. Belanja jadi lebih tenang.',
+      'desc':
+          'Didukung oleh berbagai metode pembayaran dan kurir terpercaya. Belanja jadi lebih tenang.',
       'icon': Icons.verified_user_rounded,
       'color': _accentTeal,
       'gradient': const [Color(0xFF4ECDC4), Color(0xFF20B2AA)],
-      'floating_icons': [Icons.local_shipping_rounded, Icons.shield_rounded, Icons.account_balance_wallet_rounded]
+      'floating_icons': [
+        Icons.local_shipping_rounded,
+        Icons.shield_rounded,
+        Icons.account_balance_wallet_rounded,
+      ],
     },
   ];
 
@@ -103,13 +118,13 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
                   height: 300,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: color.withOpacity(0.05),
+                    color: color.withValues(alpha: 0.05),
                   ),
                 );
-              }
+              },
             ),
           ),
-          
+
           PageView.builder(
             controller: _pageController,
             onPageChanged: (index) => setState(() => _currentIndex = index),
@@ -158,43 +173,66 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
                                   ),
                                 ),
                               );
-                            }
+                            },
                           ),
-                          
+
                           // Orbiting small icons
-                          ...List.generate((page['floating_icons'] as List).length, (i) {
-                            final icons = page['floating_icons'] as List<IconData>;
-                            final angle = (i * (3.14159 * 2 / icons.length));
-                            return AnimatedBuilder(
-                              animation: _floatController,
-                              builder: (context, child) {
-                                final radius = 130.0;
-                                final yOffset = _floatController.value * 15 * (i % 2 == 0 ? 1 : -1);
-                                return Transform.translate(
-                                  offset: Offset(
-                                    radius * 0.8 * (i == 0 ? 0 : i == 1 ? -1 : 1), 
-                                    (radius * 0.8 * (i == 0 ? -1 : 0.5)) + yOffset
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4)),
-                                      ],
+                          ...List.generate(
+                            (page['floating_icons'] as List).length,
+                            (i) {
+                              final icons =
+                                  page['floating_icons'] as List<IconData>;
+                              return AnimatedBuilder(
+                                animation: _floatController,
+                                builder: (context, child) {
+                                  final radius = 130.0;
+                                  final yOffset =
+                                      _floatController.value *
+                                      15 *
+                                      (i % 2 == 0 ? 1 : -1);
+                                  return Transform.translate(
+                                    offset: Offset(
+                                      radius *
+                                          0.8 *
+                                          (i == 0
+                                              ? 0
+                                              : i == 1
+                                              ? -1
+                                              : 1),
+                                      (radius * 0.8 * (i == 0 ? -1 : 0.5)) +
+                                          yOffset,
                                     ),
-                                    child: Icon(icons[i], size: 24, color: page['color']),
-                                  ),
-                                );
-                              }
-                            );
-                          }),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withValues(
+                                              alpha: 0.05,
+                                            ),
+                                            blurRadius: 10,
+                                            offset: const Offset(0, 4),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Icon(
+                                        icons[i],
+                                        size: 24,
+                                        color: page['color'],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 40),
-                    
+
                     // Texts
                     Text(
                       page['title'],
@@ -212,7 +250,7 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
-                        color: _textDark.withOpacity(0.6),
+                        color: _textDark.withValues(alpha: 0.6),
                         height: 1.5,
                       ),
                       textAlign: TextAlign.center,
@@ -222,7 +260,7 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
               );
             },
           ),
-          
+
           // Bottom Controls
           Positioned(
             bottom: 40,
@@ -241,13 +279,15 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
                       height: 8,
                       width: _currentIndex == index ? 24 : 8,
                       decoration: BoxDecoration(
-                        color: _currentIndex == index ? _primary : _textLight.withOpacity(0.3),
+                        color: _currentIndex == index
+                            ? _primary
+                            : _textLight.withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
                   ),
                 ),
-                
+
                 // Next/Start Button
                 GestureDetector(
                   onTap: _nextPage,
@@ -262,7 +302,7 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: _primary.withOpacity(0.3),
+                          color: _primary.withValues(alpha: 0.3),
                           offset: const Offset(0, 8),
                           blurRadius: 16,
                         ),
@@ -272,7 +312,9 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          _currentIndex == _pages.length - 1 ? 'Mulai Sekarang' : 'Lanjut',
+                          _currentIndex == _pages.length - 1
+                              ? 'Mulai Sekarang'
+                              : 'Lanjut',
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
@@ -281,8 +323,12 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
                         ),
                         if (_currentIndex < _pages.length - 1) ...[
                           const SizedBox(width: 8),
-                          const Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 20),
-                        ]
+                          const Icon(
+                            Icons.arrow_forward_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -299,7 +345,8 @@ class _OnboardingPageState extends State<OnboardingPage> with TickerProviderStat
               duration: const Duration(milliseconds: 300),
               opacity: _currentIndex == _pages.length - 1 ? 0.0 : 1.0,
               child: TextButton(
-                onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
+                onPressed: () =>
+                    Navigator.pushReplacementNamed(context, '/login'),
                 child: const Text(
                   'Lewati',
                   style: TextStyle(
